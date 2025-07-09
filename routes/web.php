@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\SettingsController;
+use App\Http\Controllers\Site\SiteController;
 use Illuminate\Support\Facades\Route;
 
 // Guest routes
@@ -16,9 +17,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
 
-    // Example Dashboard Route
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('dashboard', ['sites' => Auth::user()->sites]);
     })->name('dashboard');
 
     // User Settings
@@ -28,8 +28,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', [SettingsController::class, 'destroy'])->name('destroy');
     });
 
-    // Site Management (Future)
-    // Route::resource('sites', SiteController::class);
+    // Site Management
+    Route::get('sites/create', [SiteController::class, 'create'])->name(
+        'sites.create'
+    );
+    Route::post('sites', [SiteController::class, 'store'])->name('sites.store');
 });
 
 Route::get('/', function () {
