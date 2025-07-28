@@ -9,4 +9,13 @@
             >. All rights reserved.
         </p>
     </div>
+    <div class="bg-slate-800 text-slate-400 p-6 text-center text-sm mt-8">
+        <div class="container mx-auto">
+                <div class="mt-2">
+                  <a href="#" class="hover:text-cyan-400 mx-2">Privacy Policy</a> |
+                  <a href="#" class="hover:text-cyan-400 mx-2">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>

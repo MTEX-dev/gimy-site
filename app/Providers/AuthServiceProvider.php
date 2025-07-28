@@ -6,6 +6,10 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Site;
 use App\Policies\SitePolicy;
+use App\Models\Page;
+use App\Policies\PagePolicy;
+use App\Models\Asset;
+use App\Policies\AssetPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Site::class => SitePolicy::class,
+        Page::class => PagePolicy::class,
+        Asset::class => AssetPolicy::class,
     ];
 
     /**

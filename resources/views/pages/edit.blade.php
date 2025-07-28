@@ -1,106 +1,99 @@
-@extends('layouts.app') @section('title', 'Edit Page') @section('content')
-  <div
-    class="container mx-auto px-4 py-10"
-    x-data="{ tab: 'html' }"
-    x-cloak
-  >
-    <form method="POST" action="{{ route('pages.update', $page) }}">
-      @csrf @method('PATCH')
-      <header class="flex justify-between items-center mb-6">
-        <div>
-          <h1 class="text-3xl font-bold">
-            Editing Page:
-            <span class="text-cyan-400">/{{ $page->slug }}</span>
-          </h1>
-          <a
-            href="{{ route('sites.show', ['subdomain' => $page->site->subdomain, 'slug' => $page->slug]) }}"
-            target="_blank"
-            class="text-sm text-slate-400 hover:text-cyan-400"
-          >
-            View Live Page <i class="bi bi-box-arrow-up-right ml-1"></i>
-          </a>
-        </div>
-        <div>
-          <a
-            href="{{ route('sites.edit', $page->site) }}"
-            class="text-slate-300 hover:text-white mr-4"
-          >
-            &larr; Back to Pages
-          </a>
-          <button
-            type="submit"
-            class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-5 rounded-lg"
-          >
-            Save Changes
-          </button>
-        </div>
-      </header>
+{{-- resources/views/pages/edit.blade.php --}}
+@extends('layouts.dashboard')
 
-      @if (session('status') === 'page-updated')
-        <div class="bg-green-500/20 text-green-300 p-3 rounded-lg mb-4 text-sm">
-          Page updated successfully.
-        </div>
-      @endif
+@section('title', 'Edit Page: ' . $page->slug)
 
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div class="lg:col-span-3 bg-slate-800 rounded-xl shadow-lg">
-          <div class="border-b border-slate-700 px-4">
-            <nav class="-mb-px flex space-x-4" aria-label="Tabs">
-              <button
-                @click.prevent="tab = 'html'"
-                :class="tab === 'html' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-400 hover:text-white'"
-                class="whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm"
-              >
-                HTML
-              </button>
-              <!-- ... (CSS and JS tabs are the same) ... -->
-            </nav>
-          </div>
-          <div class="p-1">
-            <div x-show="tab === 'html'">
-              <textarea
-                name="html"
-                class="w-full h-[60vh] bg-slate-900 text-slate-300 font-mono text-sm p-4 border-0 focus:ring-0"
-                placeholder="<!-- Your HTML code here -->"
-              >{{ old('html', $page->html) }}</textarea>
-            </div>
-            <!-- ... (CSS and JS textareas are the same, using $page->css and $page->js) ... -->
-          </div>
-        </div>
+@section('breadcrumbs')
+    <a href="{{ route('sites.index') }}" class="text-gray-400 hover:text-white">My Sites</a>
+    <span class="text-gray-500">/</span>
+    <a href="{{ route('sites.show', $site) }}" class="text-gray-400 hover:text-white">{{ $site->subdomain }}</a>
+    <span class="text-gray-500">/</span>
+    <a href="{{ route('sites.pages.index', $site) }}" class="text-gray-400 hover:text-white">Pages</a>
+    <span class="text-gray-500">/</span>
+    <span class="text-gray-500">{{ $page->slug }}</span>
+    <span class="text-gray-500">/</span>
+    <span class="text-gray-500">Edit</span>
+@endsection
 
-        <div class="space-y-8">
-          <div class="bg-slate-800 rounded-xl shadow-lg p-6">
-            <h3 class="text-lg font-bold mb-4">Page Settings</h3>
-            <div class="mb-4">
-              <label for="slug" class="block mb-2 text-sm font-medium">
-                Slug
-              </label>
-              <input
-                type="text"
-                id="slug"
-                name="slug"
-                class="w-full bg-slate-700 border border-slate-600 rounded-lg p-2.5"
-                value="{{ old('slug', $page->slug) }}"
-                required
-              />
+@section('dashboard-content')
+    <div class="max-w-3xl mx-auto bg-gray-800 rounded-xl shadow-lg p-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-white">Edit Page: "{{ $page->slug }}"</h1>
+            <p class="text-gray-400">Update the details and HTML content of your page.</p>
+        </header>
+
+        <form method="POST" action="{{ route('sites.pages.update', [$site, $page]) }}">
+            @csrf
+            @method('PUT')
+            <div class="mb-6">
+                <label for="slug" class="block mb-2 text-sm font-medium text-white">Page Slug <span class="text-gray-500">(e.g., about-us, contact)</span></label>
+                <div class="flex items-center bg-gray-700 border border-gray-600 rounded-lg focus-within:ring-2 focus-within:ring-cyan-500 focus-within:border-cyan-500">
+                    <span class="text-gray-400 pl-3">/</span>
+                    <input
+                        type="text"
+                        id="slug"
+                        name="slug"
+                        class="w-full bg-transparent p-2.5 outline-none placeholder-gray-400 text-white"
+                        placeholder="your-page-slug"
+                        value="{{ old('slug', $page->slug) }}"
+                        required
+                    />
+                </div>
+                @error('slug')
+                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                @enderror
             </div>
-            <div class="flex items-center">
-              <input
-                id="is_homepage"
-                name="is_homepage"
-                type="checkbox"
-                value="1"
-                @if (old('is_homepage', $page->is_homepage)) checked @endif
-                class="w-4 h-4 rounded bg-slate-700 border-slate-600"
-              />
-              <label for="is_homepage" class="ml-2 text-sm font-medium">
-                Set as Homepage
-              </label>
+
+            <div class="mb-6">
+                <label for="title" class="block mb-2 text-sm font-medium text-white">Page Title <span class="text-gray-500">(For browser tab)</span></label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="block w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 placeholder-gray-400 text-white"
+                    placeholder="My Awesome Page"
+                    value="{{ old('title', $page->title) }}"
+                />
+                @error('title')
+                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                @enderror
             </div>
-          </div>
-        </div>
-      </div>
-    </form>
-    <script src="//unpkg.com/alpinejs" defer></script>
-  </div>
+
+            <div class="mb-6">
+                <label for="html_content" class="block mb-2 text-sm font-medium text-white">HTML Content</label>
+                <textarea
+                    id="html_content"
+                    name="html_content"
+                    rows="15"
+                    class="block w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 placeholder-gray-400 text-white font-mono"
+                    placeholder="<!-- Your HTML content here -->"
+                >{{ old('html_content', $page->html_content) }}</textarea>
+                @error('html_content')
+                    <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-6 flex items-center">
+                <input
+                    type="checkbox"
+                    id="is_homepage"
+                    name="is_homepage"
+                    value="1"
+                    {{ old('is_homepage', $page->is_homepage) ? 'checked' : '' }}
+                    class="w-4 h-4 text-cyan-600 bg-gray-700 border-gray-600 rounded focus:ring-cyan-500"
+                />
+                <label for="is_homepage" class="ml-2 text-sm font-medium text-white">Set as Homepage for this Site</label>
+                <p class="ml-4 text-xs text-gray-500">Only one page per site can be the homepage (slug: `/`). If checked, other homepages will be unset.</p>
+            </div>
+
+            <div class="flex justify-end mt-8">
+                <button
+                    type="submit"
+                    class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2.5 px-6 rounded-lg text-lg transition duration-200"
+                >
+                    Update Page
+                </button>
+            </div>
+        </form>
+    </div>
 @endsection

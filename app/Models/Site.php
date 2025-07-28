@@ -7,18 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Site extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-		'user_id', 
-		'name', 
-		'subdomain', 
-		'locale'
-	];
+    protected $fillable = ['user_id', 'subdomain'];
 
     public function user(): BelongsTo
     {
@@ -30,8 +24,13 @@ class Site extends Model
         return $this->hasMany(Page::class);
     }
 
-    public function homepage(): HasOne
+    public function assets(): HasMany
     {
-        return $this->hasOne(Page::class)->where('is_homepage', true);
+        return $this->hasMany(Asset::class);
+    }
+
+    public function getBaseUrlAttribute(): string
+    {
+        return config('app.url') . '/' . $this->subdomain;
     }
 }

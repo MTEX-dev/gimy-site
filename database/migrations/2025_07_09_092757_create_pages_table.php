@@ -9,12 +9,10 @@ return new class extends Migration {
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('site_id')->constrained()->cascadeOnDelete();
-            $table->string('title');
+            $table->foreignUuid('site_id')->constrained()->onDelete('cascade');
             $table->string('slug');
-            $table->longText('html')->nullable();
-            $table->longText('css')->nullable();
-            $table->longText('js')->nullable();
+            $table->string('title')->nullable();
+            $table->longText('html_content')->nullable();
             $table->boolean('is_homepage')->default(false);
             $table->timestamps();
 
@@ -27,3 +25,4 @@ return new class extends Migration {
         Schema::dropIfExists('pages');
     }
 };
+

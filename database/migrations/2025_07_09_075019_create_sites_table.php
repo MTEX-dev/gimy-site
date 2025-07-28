@@ -9,10 +9,10 @@ return new class extends Migration {
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->foreignUuid('user_id')
+                ->constrained()
+                ->onDelete('cascade');
             $table->string('subdomain')->unique();
-            $table->string('locale', 5)->default('en');
             $table->timestamps();
         });
     }
