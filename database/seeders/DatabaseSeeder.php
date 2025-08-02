@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'username' => 'test',
-            'email' => 'test@example.com',
+            'username' => 'michaelninder',
+            'email' => 'f.ternis@xpsystems.eu',
         ]);
 
         $this->call(SiteSeeder::class);

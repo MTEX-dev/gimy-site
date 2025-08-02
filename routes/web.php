@@ -3,21 +3,22 @@
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\SiteController;
-use App\Http\Controllers\User\AuthController;
-use App\Http\Controllers\User\SettingsController;
-use Illuminate\Support\Facades\Route;
-use App\Models as Model;
+use App\Http\Controllers\Sites\SiteDeploymentController;
 
 Route::get('/', function () {
     $stats = [
         'users' => Model\User::count(),
+        'sites' => Model\Site::count(),
     ];
     return view('pages.home', ['stats' => $stats]);
 })->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('sites', SiteController::class);
+    Route::resource('sites.files', SiteFileController::class)->shallow();
+    Route::resource('sites.deployments', SiteDeploymentController::class)->shallow();
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 

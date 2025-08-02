@@ -19,21 +19,6 @@
                 View My Sites <i class="bi bi-arrow-right"></i>
             </a>
         </div>
-        {{-- Add more dashboard widgets here --}}
-        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-indigo-500 text-white mr-4">
-                    <i class="bi bi-file-earmark-code text-2xl"></i>
-                </div>
-                <div>
-                    <p class="text-gray-400">Total Pages</p>
-                    <h3 class="text-3xl font-bold">...</h3> {{-- You'll need to calculate this --}}
-                </div>
-            </div>
-            <a href="#" class="mt-4 inline-block text-indigo-400 hover:text-indigo-300">
-                Manage Pages <i class="bi bi-arrow-right"></i>
-            </a>
-        </div>
     </div>
 
     <div class="mt-10">
