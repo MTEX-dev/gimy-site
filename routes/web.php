@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\AssetController;
+use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Sites\SiteDeploymentController;
+use App\Http\Controllers\Sites\SiteController;
+use App\Http\Controllers\Sites\SiteFileController;
+use App\Models as Model;
 
 Route::get('/', function () {
     $stats = [

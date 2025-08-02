@@ -1,60 +1,111 @@
 @extends('layouts.dashboard')
 
-@section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>{{ $site->name }}</h1>
-                <p>{{ $site->description }}</p>
-                <p>Domain: {{ $site->domain }}</p>
-                <p>Github URL: {{ $site->github_url }}</p>
+@section('title', $site->name)
 
-                <h2>Files</h2>
-                <a href="{{ route('sites.files.create', $site) }}" class="btn btn-primary">Add File</a>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Path</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($site->siteFiles as $file)
-                            <tr>
-                                <td>{{ $file->path }}</td>
-                                <td>
-                                    <a href="{{ route('files.edit', $file) }}" class="btn btn-primary">Edit</a>
-                                    <form action="{{ route('files.destroy', $file) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+@section('breadcrumbs')
+    <a href="{{ route('sites.index') }}" class="text-gray-400 hover:text-white">My Sites</a>
+    <span class="text-gray-500">/</span>
+    <span>{{ $site->name }}</span>
+@endsection
 
-                <h2>Deployments</h2>
-                <a href="{{ route('sites.deployments.create', $site) }}" class="btn btn-primary">New Deployment</a>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Commit Hash</th>
-                            <th>Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($site->siteDeployments as $deployment)
-                            <tr>
-                                <td>{{ $deployment->status }}</td>
-                                <td>{{ $deployment->commit_hash }}</td>
-                                <td>{{ $deployment->created_at }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+@section('dashboard-content')
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {{-- Site Details --}}
+        <div class="lg:col-span-2">
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white">{{ $site->name }}</h2>
+                        <p class="text-gray-400 mt-1">{{ $site->description }}</p>
+                    </div>
+                    <a href="{{ route('sites.edit', $site) }}" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <i class="bi bi-pencil-square mr-2"></i> Edit
+                    </a>
+                </div>
+                <div class="mt-6 border-t border-gray-700 pt-4">
+                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+                        <div class="flex flex-col">
+                            <dt class="text-sm font-medium text-gray-400">Domain</dt>
+                            <dd class="mt-1 text-sm text-white">
+                                @if($site->domain)
+                                    <a href="http://{{ $site->domain }}" target="_blank" class="text-cyan-400 hover:text-cyan-300">{{ $site->domain }}</a>
+                                @else
+                                    <span class="text-gray-500">Not set</span>
+                                @endif
+                            </dd>
+                        </div>
+                        <div class="flex flex-col">
+                            <dt class="text-sm font-medium text-gray-400">GitHub Repository</dt>
+                            <dd class="mt-1 text-sm text-white">
+                                @if($site->github_url)
+                                    <a href="{{ $site->github_url }}" target="_blank" class="text-cyan-400 hover:text-cyan-300">View on GitHub</a>
+                                @else
+                                    <span class="text-gray-500">Not linked</span>
+                                @endif
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            {{-- Files --}}
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Site Files</h3>
+                    <a href="{{ route('sites.files.create', $site) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <i class="bi bi-file-earmark-plus mr-2"></i> Add File
+                    </a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <tbody>
+                            @forelse ($site->siteFiles as $file)
+                                <tr class="border-b border-gray-700 hover:bg-gray-700">
+                                    <td class="py-3 px-4 text-white"><i class="bi bi-file-earmark-text mr-3"></i>{{ $file->path }}</td>
+                                    <td class="py-3 px-4 text-right">
+                                        <a href="{{ route('files.edit', $file) }}" class="text-blue-400 hover:text-blue-300 mr-4">Edit</a>
+                                        <form action="{{ route('files.destroy', $file) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-400" onclick="return confirm('Are you sure?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="2" class="text-center py-6 text-gray-500">No files uploaded yet.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{-- Deployments --}}
+        <div class="lg:col-span-1">
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-white">Deployments</h3>
+                    <a href="{{ route('sites.deployments.create', $site) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <i class="bi bi-cloud-arrow-up mr-2"></i> New Deployment
+                    </a>
+                </div>
+                <ul>
+                    @forelse ($site->siteDeployments as $deployment)
+                        <li class="border-b border-gray-700 py-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-white">{{ $deployment->status }}</span>
+                                <span class="text-sm text-gray-400">{{ $deployment->created_at->diffForHumans() }}</span>
+                            </div>
+                            @if($deployment->commit_hash)
+                                <p class="text-sm text-gray-500 mt-1">Commit: {{ substr($deployment->commit_hash, 0, 7) }}</p>
+                            @endif
+                        </li>
+                    @empty
+                        <li class="text-center py-6 text-gray-500">No deployments yet.</li>
+                    @endforelse
+                </ul>
             </div>
         </div>
     </div>
