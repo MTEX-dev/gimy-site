@@ -5,32 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Site extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['user_id', 'subdomain'];
+    protected $fillable = [
+        'user_id',
+        'name',
+        'description',
+        'domain',
+        'github_url',
+    ];
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function pages(): HasMany
+    public function siteFiles()
     {
-        return $this->hasMany(Page::class);
+        return $this->hasMany(SiteFile::class);
     }
 
-    public function assets(): HasMany
+    public function siteDeployments()
     {
-        return $this->hasMany(Asset::class);
-    }
-
-    public function getBaseUrlAttribute(): string
-    {
-        return config('app.url') . '/' . $this->subdomain;
+        return $this->hasMany(SiteDeployment::class);
     }
 }

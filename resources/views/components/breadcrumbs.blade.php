@@ -6,15 +6,9 @@
 
     // Example: For site edit page
     if (isset($site)) {
-        $breadcrumbs[] = ['name' => 'Sites', 'url' => route('dashboard')]; // Or a dedicated sites list page
+        $breadcrumbs[] = ['name' => 'Sites', 'url' => route('dashboard')];
         $breadcrumbs[] = ['name' => $site->subdomain, 'url' => route('sites.edit', $site)];
         if (isset($page)) {
-             $breadcrumbs[] = ['name' => 'Pages', 'url' => route('sites.edit', $site) . '#pages']; // Anchor link
-             $breadcrumbs[] = ['name' => $page->title, 'url' => route('pages.edit', $page)];
-        }
-        if (isset($asset) && !isset($page)) { // If editing an asset directly
-             $breadcrumbs[] = ['name' => 'Assets', 'url' => route('sites.edit', $site) . '#assets']; // Anchor link
-             $breadcrumbs[] = ['name' => $asset->file_name, 'url' => route('assets.edit', [$site, $asset])];
         }
     }
     // You'd add more logic for asset create, page create, etc.
