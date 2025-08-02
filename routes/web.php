@@ -6,7 +6,9 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Sites\SiteDeploymentController;
 use App\Http\Controllers\Sites\SiteController;
 use App\Http\Controllers\Sites\SiteFileController;
+use App\Http\Controllers\User\SettingsController;
 use App\Models as Model;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $stats = [
@@ -21,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('sites', SiteController::class);
     Route::post('sites/{site}/pull', [SiteController::class, 'pull'])->name('sites.pull');
+    Route::post('sites/{site}/backup', [SiteController::class, 'backup'])->name('sites.backup');
     Route::resource('sites.files', SiteFileController::class)->shallow();
     Route::resource('sites.deployments', SiteDeploymentController::class)->shallow();
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use ZipArchive;
 
 class SiteController extends Controller
 {
@@ -120,7 +121,6 @@ class SiteController extends Controller
     </div>
 
     <script>
-      // Simple JavaScript to log a message when the page loads
       document.addEventListener("DOMContentLoaded", () => {
         console.log("Welcome to Gimy.site - Your site is live!");
       });
@@ -130,7 +130,7 @@ class SiteController extends Controller
 ';
         $default_site->save();
 
-        Storage::disk('sites')->put($default_site->path, $default_site->content);
+        Storage::disk('sites')->put($site->id . '/' . $default_site->path, $default_site->content);
 
         return redirect()->route('sites.show', $site);
     }
@@ -172,6 +172,32 @@ class SiteController extends Controller
         return redirect()->route('sites.index');
     }
 
+    public function backup(Site $site)
+    {
+        $this->authorize('update', $site);
+
+        $backup_folder = 'site_backups/' . $site->id;
+        $timestamp = now()->format('YmdHis');
+        $backup_path = $backup_folder . '/' . $timestamp;
+
+        try {
+            Storage::disk('sites')->makeDirectory($backup_path);
+
+            foreach (Storage::disk('sites')->allFiles($site->id) as $file) {
+                $relative_path = Str::after($file, $site->id . '/');
+                Storage::disk('sites')->copy($file, $backup_path . '/' . $relative_path);
+            }
+
+            return redirect()
+                ->route('sites.show', $site)
+                ->with('status', 'Site files backed up successfully to: ' . $backup_path);
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('sites.show', $site)
+                ->with('error', 'Failed to create backup: ' . $e->getMessage());
+        }
+    }
+
     public function pull(Site $site)
     {
         $this->authorize('update', $site);
@@ -183,60 +209,118 @@ class SiteController extends Controller
         }
 
         $github_url_parts = explode('/', $site->github_url);
+        if (count($github_url_parts) < 5) {
+             return redirect()
+                ->route('sites.show', $site)
+                ->with('error', 'Invalid GitHub URL format. Expected: https://github.com/owner/repo');
+        }
+
         $owner = $github_url_parts[3];
         $repo = Str::of($github_url_parts[4])->replace('.git', '');
 
+        $userGitHubToken = Auth::user()->github_token ?? null;
+
         try {
-            $response = Http::withHeaders([
-                'Accept' => 'application/vnd.github.v3+json',
-                'Authorization' => 'token ' . config('services.github.token'),
-            ])->get("https://api.github.com/repos/{$owner}/{$repo}/contents");
+            $headers = ['Accept' => 'application/vnd.github.v3+json'];
+            if ($userGitHubToken) {
+                $headers['Authorization'] = 'token ' . $userGitHubToken;
+            }
 
-            $response->throw();
+            $response = Http::withHeaders($headers)
+                            ->get("https://api.github.com/repos/{$owner}/{$repo}/zipball/master"); // Using zipball for full repo download
 
-            $contents = $response->json();
-
-            Storage::disk('sites')->deleteDirectory($site->id);
-            Storage::disk('sites')->makeDirectory($site->id);
-            $site->files()->delete();
-
-            foreach ($contents as $item) {
-                if ($item['type'] === 'file') {
-                    $file_content_response = Http::withHeaders([
-                        'Accept' => 'application/vnd.github.v3.raw',
-                        'Authorization' =>
-                            'token ' . config('services.github.token'),
-                    ])->get($item['download_url']);
-
-                    $file_content_response->throw();
-
-                    $file_path = $site->id . '/' . $item['path'];
-                    Storage::disk('sites')->put(
-                        $file_path,
-                        $file_content_response->body(),
-                    );
-
-                    $siteFile = new SiteFile();
-                    $siteFile->site_id = $site->id;
-                    $siteFile->path = $file_path;
-                    $siteFile->content = $file_content_response->body();
-                    $siteFile->save();
-                } elseif ($item['type'] === 'dir') {
-                    Storage::disk('sites')->makeDirectory(
-                        $site->id . '/' . $item['path'],
-                    );
+            if ($response->status() === 404) {
+                return redirect()
+                    ->route('sites.show', $site)
+                    ->with('error', 'Repository not found. Please check the URL.');
+            } elseif ($response->status() === 403 || $response->status() === 401) {
+                if ($userGitHubToken) {
+                     return redirect()
+                        ->route('sites.show', $site)
+                        ->with('error', 'Authentication failed or insufficient permissions for this repository. Please re-authenticate GitHub.');
+                } else {
+                    return redirect()
+                        ->route('sites.show', $site)
+                        ->with('error', 'Access denied to this repository. It might be private. Please connect your GitHub account via OAuth.');
                 }
             }
 
-            return redirect()
-                ->route('sites.show', $site)
-                ->with('status', 'Site pulled from GitHub successfully!');
+            $response->throw();
+
+            $temp_zip_path = tempnam(sys_get_temp_dir(), 'github_pull') . '.zip';
+            file_put_contents($temp_zip_path, $response->body());
+
+            $zip = new ZipArchive();
+            if ($zip->open($temp_zip_path) === TRUE) {
+                $backup_folder = 'site_backups/' . $site->id;
+                $timestamp = now()->format('YmdHis');
+                $backup_path = $backup_folder . '/' . $timestamp;
+                Storage::disk('sites')->makeDirectory($backup_path);
+
+                foreach (Storage::disk('sites')->allFiles($site->id) as $file) {
+                    $relative_path = Str::after($file, $site->id . '/');
+                    Storage::disk('sites')->copy($file, $backup_path . '/' . $relative_path);
+                }
+
+                Storage::disk('sites')->deleteDirectory($site->id);
+                Storage::disk('sites')->makeDirectory($site->id);
+                $site->files()->delete();
+
+                $extract_path = Storage::disk('sites')->path($site->id);
+                $zip->extractTo($extract_path);
+                $zip->close();
+
+                unlink($temp_zip_path);
+
+                $extracted_repo_folder = glob($extract_path . '/*', GLOB_ONLYDIR)[0] ?? null;
+
+                if ($extracted_repo_folder) {
+                    foreach (
+                        new \RecursiveIteratorIterator(
+                            new \RecursiveDirectoryIterator($extracted_repo_folder, \RecursiveDirectoryIterator::SKIP_DOTS),
+                            \RecursiveIteratorIterator::SELF_FIRST
+                        ) as $item
+                    ) {
+                        $relative_path = Str::replaceFirst($extracted_repo_folder . '/', '', $item->getPathname());
+                        $destination_path = $site->id . '/' . $relative_path;
+
+                        if ($item->isFile()) {
+                            Storage::disk('sites')->put($destination_path, file_get_contents($item->getPathname()));
+
+                            $siteFile = new SiteFile();
+                            $siteFile->site_id = $site->id;
+                            $siteFile->path = $destination_path;
+                            $siteFile->content = file_get_contents($item->getPathname());
+                            $siteFile->save();
+                        } elseif ($item->isDir()) {
+                            Storage::disk('sites')->makeDirectory($destination_path);
+                        }
+                    }
+                    Storage::disk('sites')->deleteDirectory(Str::afterLast($extracted_repo_folder, '/'));
+                } else {
+                    return redirect()
+                        ->route('sites.show', $site)
+                        ->with('error', 'Failed to find extracted repository content.');
+                }
+
+                return redirect()
+                    ->route('sites.show', $site)
+                    ->with('status', 'Site pulled from GitHub successfully!');
+            } else {
+                unlink($temp_zip_path);
+                return redirect()
+                    ->route('sites.show', $site)
+                    ->with('error', 'Failed to open downloaded GitHub ZIP archive.');
+            }
         } catch (\Illuminate\Http\Client\RequestException $e) {
+            $message = 'Failed to pull from GitHub: ' . $e->getMessage();
+            if ($e->response->status() === 403 && !$userGitHubToken) {
+                $message .= '. This might be a private repository or rate limit exceeded for unauthenticated requests. Please connect your GitHub account via OAuth.';
+            }
             return redirect()
                 ->route('sites.show', $site)
                 ->with(
-                    'error',
-                    'Failed to pull from GitHub: ' . $e->getMessage(),
+                    'error', $message
                 );
         } catch (\Exception $e) {
             return redirect()
