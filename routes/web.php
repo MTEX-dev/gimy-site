@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('sites', SiteController::class);
+    Route::post('sites/{site}/pull', [SiteController::class, 'pull'])->name('sites.pull');
     Route::resource('sites.files', SiteFileController::class)->shallow();
     Route::resource('sites.deployments', SiteDeploymentController::class)->shallow();
 

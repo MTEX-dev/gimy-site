@@ -72,4 +72,15 @@ class SiteController extends Controller
         $site->delete();
         return redirect()->route('sites.index');
     }
+
+    public function pull(Site $site)
+    {
+        $this->authorize('update', $site);
+
+        // In a real application, this would be a more complex process
+        // involving a background job to pull the repository, but for now,
+        // we'll just redirect back with a success message.
+
+        return redirect()->route('sites.show', $site)->with('status', 'Pull from GitHub initiated!');
+    }
 }

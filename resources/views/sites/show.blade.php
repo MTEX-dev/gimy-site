@@ -9,6 +9,12 @@
 @endsection
 
 @section('dashboard-content')
+    @if (session('status'))
+        <div class="bg-green-500 text-white p-4 rounded-lg mb-6">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {{-- Site Details --}}
         <div class="lg:col-span-2">
@@ -45,6 +51,24 @@
                             </dd>
                         </div>
                     </dl>
+                </div>
+            </div>
+
+            <div class="mt-6 border-t border-gray-700 pt-6">
+                    <h3 class="text-xl font-bold text-white mb-4">Actions</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{{ route('sites.deployments.create', $site) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                            <i class="bi bi-cloud-arrow-up mr-2"></i> New Deployment
+                        </a>
+                        @if($site->github_url)
+                        <form action="{{ route('sites.pull', $site) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                                <i class="bi bi-github mr-2"></i> Pull from GitHub
+                            </button>
+                        </form>
+                        @endif
+                    </div>
                 </div>
             </div>
 
