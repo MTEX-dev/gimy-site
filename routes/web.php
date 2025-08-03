@@ -25,7 +25,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('sites', SiteController::class);
     Route::post('sites/{site}/pull', [GithubController::class, 'pull'])->name('sites.pull');
-    Route::post('sites/{site}/backup', [BackupController::class, 'backup'])->name('sites.backup');
+    Route::resource('sites.backups', BackupController::class)->only(['index', 'store']);
+    Route::post('sites/{site}/backups/restore', [BackupController::class, 'restore'])->name('sites.backups.restore');
     Route::resource('sites.files', SiteFileController::class)->shallow();
     Route::resource('sites.deployments', SiteDeploymentController::class)->shallow();
 

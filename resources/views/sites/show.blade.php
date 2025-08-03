@@ -74,12 +74,9 @@
                         </button>
                     </form>
                     @endif
-                    <form action="{{ route('sites.backup', $site) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
-                            <i class="bi bi-archive mr-2"></i> Create Backup
-                        </button>
-                    </form>
+                    <a href="{{ route('sites.backups.index', $site) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                        <i class="bi bi-archive mr-2"></i> View Backups
+                    </a>
                 </div>
             </div>
         </div>
