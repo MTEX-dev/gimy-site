@@ -11,10 +11,12 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $sitesCount = $user->sites()->count();
+        $filesCount = $user->siteFiles()->count();
         $sites = auth()->user()->sites()->latest()->get();
         return view('dashboard', compact([
             'sites',
-            'sitesCount'
+            'sitesCount',
+            'filesCount',
         ]));
     }
 }

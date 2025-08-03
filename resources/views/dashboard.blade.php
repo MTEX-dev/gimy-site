@@ -8,7 +8,6 @@
         <div class="bg-gray-800 rounded-lg shadow-lg p-6">
             <div class="flex items-center">
                 <div class="p-3 rounded-full bg-cyan-500 text-white mr-4">
-                    <i class="bi bi-browser-chrome text-2xl"></i>
                 </div>
                 <div>
                     <p class="text-gray-400">Total Sites</p>
@@ -18,6 +17,16 @@
             <a href="{{ route('sites.index') }}" class="mt-4 inline-block text-cyan-400 hover:text-cyan-300">
                 View My Sites <i class="bi bi-arrow-right"></i>
             </a>
+        </div>
+        <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-500 text-white mr-4">
+                </div>
+                <div>
+                    <p class="text-gray-400">Total Files</p>
+                    <h3 class="text-3xl font-bold">{{ $filesCount }}</h3>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -32,7 +41,6 @@
                 <i class="bi bi-list-nested text-4xl text-blue-500 mb-2"></i>
                 <p class="text-xl font-semibold">Manage Existing Sites</p>
             </a>
-            {{-- More quick actions --}}
         </div>
     </div>
 @endsection

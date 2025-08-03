@@ -27,6 +27,11 @@ class Site extends Model
     {
         return $this->hasMany(SiteFile::class);
     }
+    
+    public function files()
+    {
+        return $this->siteFiles();
+    }
 
     public function siteDeployments()
     {
