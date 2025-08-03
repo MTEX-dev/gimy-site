@@ -30,7 +30,7 @@
                                 including a designated homepage.
                             </dd>
                         </div>
-                        <div class="relative pl-9">
+                        <!--div class="relative pl-9">
                             <dt class="inline font-semibold text-white">
                                 <i
                                     class="bi bi-hdd-stack-fill absolute left-1 top-1 text-indigo-400"
@@ -40,6 +40,28 @@
                             <dd class="inline">
                                 All your sites and pages are securely stored
                                 and managed in the database.
+                            </dd>
+                        </div-->
+                        <div class="relative pl-9">
+                            <dt class="inline font-semibold text-white">
+                                <i
+                                    class="bi bi-github absolute left-1 top-1 text-indigo-400"
+                                ></i>
+                                Pull from Github.
+                            </dt>
+                            <dd class="inline">
+                            Download any publick github Reposetory with one-click.
+                            </dd>
+                        </div>
+                        <div class="relative pl-9">
+                            <dt class="inline font-semibold text-white">
+                                <i
+                                    class="bi bi-database-fill-down absolute left-1 top-1 text-indigo-400"
+                                ></i>
+                                Simple Back-Ups.
+                            </dt>
+                            <dd class="inline">
+                            Back yor files up with one-click. Automatic Backup when restoreing a Backup or when Pulling from GitHub.
                             </dd>
                         </div>
                         <div class="relative pl-9">

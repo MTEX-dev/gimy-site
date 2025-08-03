@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\App;
 Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
 
     Route::resource('sites', SiteController::class);
     Route::get('sites/{site}/explorer/{path?}', [FileExplorerController::class, 'explore'])->name('sites.explorer')->where('path', '.*');

@@ -41,7 +41,7 @@
                     2. Add Your Code
                 </h3>
                 <p class="mt-2 text-gray-400">
-                    Create a new site, add pages, and paste your HTML, CSS, and
+                    Create a new site,and paste or upload your HTML, CSS, and
                     JavaScript directly.
                 </p>
             </div>
