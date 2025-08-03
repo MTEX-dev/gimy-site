@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FileExplorerController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('sites/{site}/backups/restore', [BackupController::class, 'restore'])->name('sites.backups.restore');
     Route::resource('sites.files', SiteFileController::class)->shallow();
     Route::resource('sites.deployments', SiteDeploymentController::class)->shallow();
+    Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 

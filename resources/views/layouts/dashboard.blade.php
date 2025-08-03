@@ -15,6 +15,9 @@
                 <a href="{{ route('sites.index') }}" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200 {{ request()->routeIs('sites.*') ? 'bg-gray-700 text-white' : '' }}">
                     <i class="bi bi-browser-chrome mr-3"></i> My Sites
                 </a>
+                <a href="{{ route('logs.index') }}" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200 {{ request()->routeIs('logs.*') ? 'bg-gray-700 text-white' : '' }}">
+                    <i class="bi bi-bug-fill mr-3"></i> Logs
+                </a>
                 <a href="#" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">
                     <i class="bi bi-gear-fill mr-3"></i> Settings
                 </a>
