@@ -1,6 +1,48 @@
 @extends('layouts.main')
 
 @section('main-content')
+
+<style>
+    body,
+    .overflow-y-auto,
+    .overflow-x-auto {
+        scrollbar-width: thin;
+        scrollbar-color: #6366f1 #1f2937;
+        -webkit-overflow-scrolling: touch; 
+    }
+
+    ::-webkit-scrollbar,
+    .overflow-y-auto::-webkit-scrollbar,
+    .overflow-x-auto::-webkit-scrollbar {
+        display:block;
+        width: 3px;
+    }
+
+    ::-webkit-scrollbar-track,
+    .overflow-y-auto::-webkit-scrollbar-track,
+    .overflow-x-auto::-webkit-scrollbar-track {
+        background: #1f2937;
+        border-radius: 2px;
+        transition-duration: 1s;
+    }
+
+    ::-webkit-scrollbar-thumb,
+    .overflow-y-auto::-webkit-scrollbar-thumb,
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+        background-color: #6366f1;
+        border-radius: 10px;
+        border: 1px solid #1f2937;
+        transition-duration: 1s;
+    }
+
+    ::-webkit-scrollbar-thumb:hover,
+    .overflow-y-auto::-webkit-scrollbar-thumb:hover,
+    .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+        background-color: #818cf8;
+        border: 1px solid #95c3ff;
+        transition-duration: 1s;
+    }
+</style>
     @include('pages.home._hero')
     @include('pages.home._stats')
     @include('pages.home._how-it-works')

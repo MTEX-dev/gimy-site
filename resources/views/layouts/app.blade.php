@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
     <head>
         <meta charset="utf-8" />
@@ -9,7 +9,7 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         />
-            <script
+        <script
             defer
             src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
         ></script>
@@ -81,6 +81,26 @@
                     transform: scale(1.2);
                     opacity: 0.2;
                 }
+            }
+
+            ::-webkit-scrollbar {
+                display: none;
+                width: 0;
+                height: 0;
+            }
+
+            body {
+                scrollbar-width: none;
+            }
+
+            body {
+                -ms-overflow-style: none;
+            }
+
+            body,
+            .overflow-y-auto,
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
             }
         </style>
     </head>
