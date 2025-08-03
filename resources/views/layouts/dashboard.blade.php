@@ -6,9 +6,12 @@
         {{-- Sidenav --}}
         <aside class="w-64 bg-gray-800 shadow-lg fixed md:relative h-screen md:h-auto z-40 hidden md:block" id="sidenav">
             <div class="p-6 text-2xl font-bold text-center border-b border-gray-700">
-                Gimy.site Dashboard
+                gimy.site
             </div>
             <nav class="mt-5">
+                <a href="{{ route('home') }}" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">
+                    <i class="bi bi-house-fill mr-3"></i> Home
+                </a>
                 <a href="{{ route('dashboard') }}" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200 {{ request()->routeIs('dashboard') ? 'bg-gray-700 text-white' : '' }}">
                     <i class="bi bi-grid-fill mr-3"></i> Dashboard
                 </a>
