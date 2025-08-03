@@ -90,28 +90,28 @@ class GithubController extends Controller
                 $extracted_repo_folder = glob($extract_path . '/*', GLOB_ONLYDIR)[0] ?? null;
 
                 if ($extracted_repo_folder) {
-                    foreach (
-                        new \RecursiveIteratorIterator(
-                            new \RecursiveDirectoryIterator($extracted_repo_folder, \RecursiveDirectoryIterator::SKIP_DOTS),
-                            \RecursiveIteratorIterator::SELF_FIRST
-                        ) as $item
-                    ) {
+                    $all_files = new \RecursiveIteratorIterator(
+                        new \RecursiveDirectoryIterator($extracted_repo_folder, \RecursiveDirectoryIterator::SKIP_DOTS),
+                        \RecursiveIteratorIterator::SELF_FIRST
+                    );
+
+                    foreach ($all_files as $item) {
                         $relative_path = Str::replaceFirst($extracted_repo_folder . '/', '', $item->getPathname());
                         $destination_path = $site->id . '/' . $relative_path;
 
-                        if ($item->isFile()) {
-                            Storage::disk('sites')->put($destination_path, file_get_contents($item->getPathname()));
-
-                            $siteFile = new SiteFile();
-                            $siteFile->site_id = $site->id;
-                            $siteFile->path = $destination_path;
-                            $siteFile->content = file_get_contents($item->getPathname());
-                            $siteFile->save();
-                        } elseif ($item->isDir()) {
+                        if ($item->isDir()) {
                             Storage::disk('sites')->makeDirectory($destination_path);
+                        } else {
+                            $content = file_get_contents($item->getPathname());
+                            Storage::disk('sites')->put($destination_path, $content);
+
+                            $site->siteFiles()->create([
+                                'path' => $relative_path,
+                                'content' => $content,
+                            ]);
                         }
                     }
-                    Storage::disk('sites')->deleteDirectory(Str::afterLast($extracted_repo_folder, '/'));
+                    Storage::disk('sites')->deleteDirectory($site->id . '/' . basename($extracted_repo_folder));
                 } else {
                     return redirect()
                         ->route('sites.show', $site)

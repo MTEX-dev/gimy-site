@@ -28,7 +28,7 @@ class BackupController extends Controller
         return view('sites.backups.index', compact('site', 'backups'));
     }
 
-    public function store(Site $site)
+    public function store(Site $site, $redirect = true)
     {
         $this->authorize('update', $site);
 
@@ -45,13 +45,19 @@ class BackupController extends Controller
                 Storage::disk('sites')->copy($file, $backup_path . '/' . $relative_path);
             }
 
-            return redirect()
-                ->route('sites.show', $site)
-                ->with('status', 'Site files backed up successfully to: ' . $backup_path);
+            if ($redirect) {
+                return redirect()
+                    ->route('sites.backups.index', $site)
+                    ->with('status', 'Site files backed up successfully to: ' . $backup_path);
+            }
+            return true;
         } catch (\Exception $e) {
-            return redirect()
-                ->route('sites.show', $site)
-                ->with('error', 'Failed to create backup: ' . $e->getMessage());
+            if ($redirect) {
+                return redirect()
+                    ->route('sites.backups.index', $site)
+                    ->with('error', 'Failed to create backup: ' . $e->getMessage());
+            }
+            return false;
         }
     }
 
@@ -67,16 +73,20 @@ class BackupController extends Controller
 
         if (!Storage::disk('sites')->exists($backup_path)) {
             return redirect()
-                ->route('sites.show', $site)
+                ->route('sites.backups.index', $site)
                 ->with('error', 'Backup not found.');
         }
 
         try {
             // First, create a backup of the current state before restoring
-            $this->store($site);
+            if (!$this->store($site, false)) {
+                return redirect()
+                    ->route('sites.backups.index', $site)
+                    ->with('error', 'Could not create a backup before restoring. Aborting.');
+            }
 
             // Clear the current site directory
-            Storage::disk('sites')->deleteDirectory($site->id);
+            Storage::disk('sites')->deleteDirectory($site->id, true);
             Storage::disk('sites')->makeDirectory($site->id);
             $site->siteFiles()->delete();
 
@@ -97,7 +107,7 @@ class BackupController extends Controller
                 ->with('status', 'Site restored successfully from backup.');
         } catch (\Exception $e) {
             return redirect()
-                ->route('sites.show', $site)
+                ->route('sites.backups.index', $site)
                 ->with('error', 'Failed to restore backup: ' . $e->getMessage());
         }
     }
