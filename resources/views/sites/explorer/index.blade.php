@@ -49,13 +49,12 @@
                 @foreach ($directories as $dir)
                     <tr class="border-b border-gray-700 hover:bg-gray-700">
                         <td class="py-3 px-4 text-white">
-                                    <a href="{{ route('sites.explorer', ['site' => $site, 'path' => str_replace($site->id . '/', '', $dir)]) }}" class="flex items-center">
-                                        <i class="bi bi-folder-fill mr-3 text-yellow-500"></i>
-                                        {{ basename($dir) }}
-                                    </a>
-                                </td>
+                            <a href="{{ route('sites.explorer', ['site' => $site, 'path' => str_replace($site->id . '/', '', $dir)]) }}" class="flex items-center">
+                                <i class="bi bi-folder-fill mr-3 text-yellow-500"></i>
+                                {{ basename($dir) }}
+                            </a>
+                        </td>
                         <td class="py-3 px-4 text-right">
-                            {{-- Directory actions can go here --}}
                         </td>
                     </tr>
                 @endforeach
@@ -71,12 +70,23 @@
                                 $extension = pathinfo($file, PATHINFO_EXTENSION);
                                 $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
                             @endphp
-                            @if(in_array($extension, $imageExtensions))
-                                <img src="{{ Storage::disk('sites')->url($file) }}" alt="{{ basename($file) }}" class="w-16 h-16 object-cover inline-block mr-3">
+                            @if ($siteFile)
+                                <a href="{{ route('files.edit', $siteFile) }}" class="flex items-center">
+                                    @if(in_array($extension, $imageExtensions))
+                                        <img src="{{ Storage::disk('sites')->url($file) }}" alt="{{ basename($file) }}" class="w-16 h-16 object-cover inline-block mr-3">
+                                    @else
+                                        <i class="bi bi-file-earmark-text mr-3"></i>
+                                    @endif
+                                    {{ basename($file) }}
+                                </a>
                             @else
-                                <i class="bi bi-file-earmark-text mr-3"></i>
+                                @if(in_array($extension, $imageExtensions))
+                                    <img src="{{ Storage::disk('sites')->url($file) }}" alt="{{ basename($file) }}" class="w-16 h-16 object-cover inline-block mr-3">
+                                @else
+                                    <i class="bi bi-file-earmark-text mr-3"></i>
+                                @endif
+                                {{ basename($file) }}
                             @endif
-                            {{ basename($file) }}
                         </td>
                         <td class="py-3 px-4 text-right">
                             @if ($siteFile)

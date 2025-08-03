@@ -27,7 +27,6 @@ class SiteFileController extends Controller
             $file = $request->file('file');
             $path = $file->getClientOriginalName();
 
-            // Prevent directory traversal
             if (str_contains($path, '..')) {
                 return redirect()->route('sites.show', $site)->with('error', 'Invalid file path.');
             }
@@ -64,7 +63,12 @@ class SiteFileController extends Controller
     public function edit(SiteFile $file)
     {
         $this->authorize('update', $file->site);
-        return view('sites.files.edit', compact('file'));
+
+        $filePathInfo = pathinfo($file->path);
+        $filePathInfo['directory'] = $filePathInfo['dirname'] ?? '';
+        $breadcrumbs = collect(explode('/', $filePathInfo['directory']))->filter();
+
+        return view('sites.files.edit', compact('file', 'breadcrumbs', 'filePathInfo'));
     }
 
     public function update(Request $request, SiteFile $file)
@@ -83,7 +87,7 @@ class SiteFileController extends Controller
             'content' => $content,
         ]);
 
-        return redirect()->route('sites.show', $file->site);
+        return redirect()->route('sites.explorer', ['site' => $file->site, 'path' => pathinfo($file->path)['dirname']]);
     }
 
     public function destroy(SiteFile $file)
@@ -94,6 +98,6 @@ class SiteFileController extends Controller
 
         $file->delete();
 
-        return redirect()->route('sites.show', $file->site);
+        return redirect()->route('sites.explorer', ['site' => $file->site, 'path' => pathinfo($file->path)['dirname']]);
     }
 }
