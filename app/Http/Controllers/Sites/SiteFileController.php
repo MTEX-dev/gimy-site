@@ -30,8 +30,7 @@ class SiteFileController extends Controller
         'audio/mpeg',
         'text/plain',
 
-
-        // Compatability
+        // Better Compatability
         'text/javascript',
         'application/x-javascript',
         'text/x-java-source',
@@ -39,6 +38,9 @@ class SiteFileController extends Controller
         'text/x-scss',
         'text/x-less',
         'application/x-css',
+        
+        // Allow Empty files (no MimeType)
+        'application/x-empty', 
     ];
 
     public function create(Site $site)
