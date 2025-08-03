@@ -63,6 +63,9 @@
             <div class="mt-6 border-t border-gray-700 pt-6">
                 <h3 class="text-xl font-bold text-white mb-4">Actions</h3>
                 <div class="flex flex-wrap gap-4">
+                    <a href="{{ route('sites.explorer', $site) }}" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                        <i class="bi bi-folder-symlink mr-2"></i> File Explorer
+                    </a>
                     <!--a href="{{ route('sites.deployments.create', $site) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
                         <i class="bi bi-cloud-arrow-up mr-2"></i> New Deployment
                     </a-->

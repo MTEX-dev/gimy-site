@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileExplorerController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
@@ -24,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('sites', SiteController::class);
+    Route::get('sites/{site}/explorer/{path?}', [FileExplorerController::class, 'explore'])->name('sites.explorer')->where('path', '.*');
     Route::post('sites/{site}/pull', [GithubController::class, 'pull'])->name('sites.pull');
     Route::resource('sites.backups', BackupController::class)->only(['index', 'store']);
     Route::post('sites/{site}/backups/restore', [BackupController::class, 'restore'])->name('sites.backups.restore');
