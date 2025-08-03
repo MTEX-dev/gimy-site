@@ -17,12 +17,36 @@ class SiteFileController extends Controller
 
     public function store(Request $request, Site $site)
     {
+        $this->authorize('update', $site);
+
+        if ($request->hasFile('file')) {
+            $request->validate([
+                'file' => 'required|file|max:10240', // 10MB max
+            ]);
+
+            $file = $request->file('file');
+            $path = $file->getClientOriginalName();
+
+            // Prevent directory traversal
+            if (str_contains($path, '..')) {
+                return redirect()->route('sites.show', $site)->with('error', 'Invalid file path.');
+            }
+
+            $content = file_get_contents($file);
+            Storage::disk('sites')->put($site->id . '/' . $path, $content);
+
+            $site->siteFiles()->updateOrCreate(
+                ['path' => $path],
+                ['content' => $content]
+            );
+
+            return redirect()->route('sites.show', $site)->with('status', 'File uploaded successfully.');
+        }
+
         $request->validate([
             'path' => 'required|string',
             'content' => 'required|string',
         ]);
-
-        $this->authorize('update', $site);
 
         $filePath = $request->input('path');
         $content = $request->input('content');

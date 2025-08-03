@@ -22,7 +22,7 @@ class SiteSeeder extends Seeder
             Site::create([
                 'user_id' => $user->id,
                 'name' => 'My First Site',
-                'description' => 'This is my first site created with Gimy.',
+                'description' => 'This is my first site created with gimy.site.',
             ]);
         }
     }

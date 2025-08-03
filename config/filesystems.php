@@ -56,11 +56,10 @@ return [
             'throw' => false,
         ],
 
-        // ADD THIS NEW DISK CONFIGURATION
         'sites' => [
             'driver' => 'local', // Use the local filesystem driver
             'root' => storage_path('app/sites'), // This is where the site files will be stored
-            'url' => env('APP_URL') . '/sites', // Optional: if you were to expose these directly via web server alias
+            'url' => env('APP_URL') . '/site-files', // Optional: if you were to expose these directly via web server alias
             'visibility' => 'public', // Makes files accessible with Storage::url() if symlinked or web server config allows
             'throw' => false,
         ],
@@ -80,6 +79,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('site-files') => storage_path('app/sites'),
     ],
 
 ];

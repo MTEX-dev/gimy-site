@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('sites', SiteController::class);
+    Route::resource('sites', SiteController::class);
     Route::post('sites/{site}/pull', [GithubController::class, 'pull'])->name('sites.pull');
     Route::resource('sites.backups', BackupController::class)->only(['index', 'store']);
     Route::post('sites/{site}/backups/restore', [BackupController::class, 'restore'])->name('sites.backups.restore');

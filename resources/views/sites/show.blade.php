@@ -94,7 +94,18 @@
                     <tbody>
                         @forelse ($site->siteFiles as $file)
                             <tr class="border-b border-gray-700 hover:bg-gray-700">
-                                <td class="py-3 px-4 text-white"><i class="bi bi-file-earmark-text mr-3"></i>{{ $file->path }}</td>
+                                <td class="py-3 px-4 text-white">
+                                    @php
+                                        $extension = pathinfo($file->path, PATHINFO_EXTENSION);
+                                        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
+                                    @endphp
+                                    @if(in_array($extension, $imageExtensions))
+                                        <img src="{{ Storage::disk('sites')->url($site->id . '/' . $file->path) }}" alt="{{ $file->path }}" class="w-16 h-16 object-cover inline-block mr-3">
+                                    @else
+                                        <i class="bi bi-file-earmark-text mr-3"></i>
+                                    @endif
+                                    {{ $file->path }}
+                                </td>
                                 <td class="py-3 px-4 text-right">
                                     <a href="{{ route('files.edit', $file) }}" class="text-blue-400 hover:text-blue-300 mr-4">Edit</a>
                                     <form action="{{ route('files.destroy', $file) }}" method="POST" class="inline-block">
