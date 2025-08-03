@@ -41,6 +41,9 @@ class SiteFileController extends Controller
         
         // Allow Empty files (no MimeType)
         'application/x-empty', 
+
+        // Specifically for the 'text/x-java' reported by some systems for JS files
+        'text/x-java',
     ];
 
     public function create(Site $site)
