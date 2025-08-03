@@ -15,15 +15,15 @@
     <h2 class="text-2xl font-bold text-white mb-6">Add New Files to <span class="text-indigo-400">{{ $site->name }}</span></h2>
     
     <div class="mb-8 border-b border-gray-700 pb-8">
-        <h3 class="text-xl font-semibold text-white mb-4">Upload Files</h3> {{-- Text changed --}}
+        <h3 class="text-xl font-semibold text-white mb-4">Upload Individual Files</h3>
         <form action="{{ route('sites.files.store', $site) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
-                <label for="files_individual" class="block text-gray-400 text-sm font-bold mb-2">Select Individual Files</label> {{-- Input ID and label changed --}}
+                <label for="files_individual" class="block text-gray-400 text-sm font-bold mb-2">Select Individual Files</label>
                 <input
                     type="file"
                     name="files[]"
-                    id="files_individual" {{-- New ID --}}
+                    id="files_individual"
                     multiple
                     class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-700 border-gray-600 text-white leading-tight focus:outline-none focus:shadow-outline file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-500 file:text-white hover:file:bg-indigo-600"
                 >
@@ -31,6 +31,13 @@
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                 @enderror
                 @error('files.*')
+                    <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="mb-4">
+                <label for="upload_subfolder" class="block text-gray-400 text-sm font-bold mb-2">Upload to Folder (Optional)</label>
+                <input type="text" name="upload_subfolder" id="upload_subfolder" class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-700 border-gray-600 text-white leading-tight focus:outline-none focus:shadow-outline" placeholder="e.g., assets/images or leave empty for root">
+                @error('upload_subfolder')
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                 @enderror
             </div>
@@ -46,7 +53,7 @@
             <span class="text-gray-500">OR</span>
         </div>
 
-        <h3 class="text-xl font-semibold text-white mb-4">Upload a Folder</h3> {{-- New Section for Folder Upload --}}
+        <h3 class="text-xl font-semibold text-white mb-4">Upload a Folder</h3>
         <form action="{{ route('sites.files.store', $site) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-4">
@@ -54,9 +61,9 @@
                 <input
                     type="file"
                     name="files[]"
-                    id="folder_upload" {{-- New ID --}}
+                    id="folder_upload"
                     multiple
-                    webkitdirectory directory {{-- Specific attributes for folder upload --}}
+                    webkitdirectory directory
                     class="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-700 border-gray-600 text-white leading-tight focus:outline-none focus:shadow-outline file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-500 file:text-white hover:file:bg-indigo-600"
                 >
                 @error('files')
@@ -65,6 +72,10 @@
                 @error('files.*')
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                 @enderror
+            </div>
+            <div class="mb-4">
+                <input disabled type="checkbox" name="create_base_folder" id="create_base_folder" class="form-checkbox h-4 w-4 text-indigo-500" value="true">
+                <label for="create_base_folder" class="ml-2 text-gray-400 text-sm">Create a base folder (e.g., if you select "my-project" folder, it will create "my-project/" in your site)</label>
             </div>
             <p class="text-gray-500 text-sm mt-2">All files within the selected folder (and subfolders) will be uploaded. Max file size: 10MB per file.</p>
             <div class="flex items-center justify-end">

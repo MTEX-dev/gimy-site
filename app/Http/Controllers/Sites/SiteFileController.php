@@ -32,7 +32,7 @@ class SiteFileController extends Controller
         'audio/mpeg',
         'text/plain',
 
-        // compatability
+        // Compatability
         'text/javascript',
         'application/x-javascript',
         'text/x-java-source',
@@ -40,10 +40,10 @@ class SiteFileController extends Controller
         'text/x-scss',
         'text/x-less',
         'application/x-css',
-        'text/x-java',
-
+        
         // FIX
-        'application/x-empty',
+        'application/x-empty', 
+        'text/x-java',
     ];
 
     protected array $extensionMimeTypeMap = [
@@ -68,6 +68,11 @@ class SiteFileController extends Controller
         'txt' => 'text/plain',
     ];
 
+    protected array $systemFilesToIgnore = [
+        '.DS_Store',
+        'Thumbs.db',
+        'desktop.ini',
+    ];
 
     protected function getRobustMimeType(UploadedFile $file): ?string
     {
@@ -79,7 +84,7 @@ class SiteFileController extends Controller
         }
 
         if (in_array($detectedMimeType, ['application/octet-stream', 'application/x-empty', 'text/plain']) || !$detectedMimeType) {
-            $extension = $file->getClientOriginalExtension();
+            $extension = strtolower($file->getClientOriginalExtension());
             if (isset($this->extensionMimeTypeMap[$extension])) {
                 return $this->extensionMimeTypeMap[$extension];
             }
@@ -87,7 +92,6 @@ class SiteFileController extends Controller
 
         return $detectedMimeType;
     }
-
 
     public function create(Site $site)
     {
@@ -107,18 +111,17 @@ class SiteFileController extends Controller
                     'max:10240',
                     function ($attribute, $value, $fail) {
                         $originalName = $value->getClientOriginalName();
+                        $basename = basename($originalName);
                         
-                        if (str_starts_with($originalName, '.') && !str_contains($originalName, '/')) {
-                            if ($originalName === '.DS_Store' || $originalName === 'Thumbs.db' || $originalName === 'desktop.ini') {
-                                $fail("System file '{$originalName}' is not allowed for upload.");
-                                return;
-                            }
+                        if (in_array($basename, $this->systemFilesToIgnore)) {
+                            $fail("System file '{$basename}' is not allowed for upload.");
+                            return;
                         }
 
                         $detectedMimeType = $this->getRobustMimeType($value);
                         
                         if (!in_array($detectedMimeType, $this->allowedMimeTypes)) {
-                            $fail("The file type ({$detectedMimeType}) for '{$originalName}' is not allowed. Please check the file content and extension.");
+                            $fail("The file type ({$detectedMimeType}) for '{$originalName}' is not allowed. Allowed types include HTML, CSS, JS, images, fonts, video/audio.");
                         }
                         
                         if (str_contains($originalName, '..')) {
@@ -126,19 +129,31 @@ class SiteFileController extends Controller
                         }
                     },
                 ],
+                'upload_subfolder' => 'nullable|string|regex:/^[a-zA-Z0-9_\-\.\/]*$/', 
             ]);
 
             $uploadedCount = 0;
             $failedFiles = [];
+            $uploadSubfolder = trim($request->input('upload_subfolder', ''), '/'); 
 
             foreach ($request->file('files') as $file) {
-                $pathWithDirectory = $file->getClientOriginalName();
-                $fullStoragePath = $site->id . '/' . $pathWithDirectory;
+                $originalRelativePath = $file->getClientOriginalName();
+
+                $finalFilePathInSite = ($uploadSubfolder && !str_contains($originalRelativePath, '/')) 
+                                        ? $uploadSubfolder . '/' . $originalRelativePath 
+                                        : $originalRelativePath;
+                                        
+                $basename = basename($finalFilePathInSite);
+                if (in_array($basename, $this->systemFilesToIgnore)) {
+                    continue; 
+                }
+
+                $fullStoragePath = $site->id . '/' . $finalFilePathInSite;
 
                 try {
                     Storage::disk('sites')->makeDirectory(dirname($fullStoragePath));
 
-                    $existingFile = $site->siteFiles()->where('path', $pathWithDirectory)->first();
+                    $existingFile = $site->siteFiles()->where('path', $finalFilePathInSite)->first();
 
                     $content = $file->get();
                     Storage::disk('sites')->put($fullStoragePath, $content);
@@ -147,14 +162,14 @@ class SiteFileController extends Controller
                         $existingFile->update(['content' => $content]);
                     } else {
                         $site->siteFiles()->create([
-                            'path' => $pathWithDirectory,
+                            'path' => $finalFilePathInSite,
                             'content' => $content,
                         ]);
                     }
                     $uploadedCount++;
                 } catch (\Exception $e) {
-                    \Log::error("Failed to upload file for site {$site->id}: {$pathWithDirectory}. Error: " . $e->getMessage());
-                    $failedFiles[] = $pathWithDirectory;
+                    \Log::error("Failed to upload file for site {$site->id}: {$finalFilePathInSite}. Error: " . $e->getMessage());
+                    $failedFiles[] = $finalFilePathInSite;
                 }
             }
 
@@ -174,6 +189,10 @@ class SiteFileController extends Controller
                 function ($attribute, $value, $fail) use ($site) {
                     if (str_contains($value, '..')) {
                         $fail("The path cannot contain directory traversal characters (..).");
+                    }
+                    $basename = basename($value);
+                    if (in_array($basename, $this->systemFilesToIgnore)) {
+                        $fail("System file '{$basename}' is not allowed for creation.");
                     }
                 },
             ],

@@ -56,7 +56,7 @@
                         <div class="relative pl-9">
                             <dt class="inline font-semibold text-white">
                                 <i
-                                    class="bi bi-database-fill-down absolute left-1 top-1 text-indigo-400"
+                                    class="bi bi-archive absolute left-1 top-1 text-indigo-400"
                                 ></i>
                                 Simple Back-Ups.
                             </dt>

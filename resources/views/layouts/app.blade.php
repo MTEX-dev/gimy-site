@@ -103,6 +103,40 @@
                 -webkit-overflow-scrolling: touch;
             }
         </style>
+        <style>
+
+            body::-webkit-scrollbar,
+            .overflow-y-auto::-webkit-scrollbar,
+            .overflow-x-auto::-webkit-scrollbar {
+                display:block;
+                width: 7px;
+            }
+        
+            body::-webkit-scrollbar-track,
+            .overflow-y-auto::-webkit-scrollbar-track,
+            .overflow-x-auto::-webkit-scrollbar-track {
+                background: #1f2937;
+                border-radius: 2px;
+                transition-duration: 1s;
+            }
+        
+            body::-webkit-scrollbar-thumb,
+            .overflow-y-auto::-webkit-scrollbar-thumb,
+            .overflow-x-auto::-webkit-scrollbar-thumb {
+                background-color: #6366f1;
+                border-radius: 10px;
+                border: 1px solid #1f2937;
+                transition-duration: 1s;
+            }
+        
+            body::-webkit-scrollbar-thumb:hover,
+            .overflow-y-auto::-webkit-scrollbar-thumb:hover,
+            .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+                background-color: #818cf8;
+                border: 1px solid #384a63;
+                transition-duration: 1s;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased bg-gray-900 text-gray-200">
         @yield('content')
