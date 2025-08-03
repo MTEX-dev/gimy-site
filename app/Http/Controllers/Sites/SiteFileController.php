@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Sites;
 
 use App\Http\Controllers\Controller;
 use App\Models\Site;
+use App\Models\SiteFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\Mime\MimeTypes;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SiteFileController extends Controller
 {
@@ -30,7 +32,7 @@ class SiteFileController extends Controller
         'audio/mpeg',
         'text/plain',
 
-        // Better Compatability
+        // compatability
         'text/javascript',
         'application/x-javascript',
         'text/x-java-source',
@@ -38,13 +40,54 @@ class SiteFileController extends Controller
         'text/x-scss',
         'text/x-less',
         'application/x-css',
-        
-        // Allow Empty files (no MimeType)
-        'application/x-empty', 
-
-        // Specifically for the 'text/x-java' reported by some systems for JS files
         'text/x-java',
+
+        // FIX
+        'application/x-empty',
     ];
+
+    protected array $extensionMimeTypeMap = [
+        'js' => 'application/javascript',
+        'css' => 'text/css',
+        'html' => 'text/html',
+        'htm' => 'text/html',
+        'json' => 'application/json',
+        'xml' => 'text/xml',
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'gif' => 'image/gif',
+        'svg' => 'image/svg+xml',
+        'webp' => 'image/webp',
+        'woff' => 'font/woff',
+        'woff2' => 'font/woff2',
+        'ttf' => 'font/ttf',
+        'otf' => 'font/otf',
+        'mp4' => 'video/mp4',
+        'mp3' => 'audio/mpeg',
+        'txt' => 'text/plain',
+    ];
+
+
+    protected function getRobustMimeType(UploadedFile $file): ?string
+    {
+        $mimeTypeGuesser = MimeTypes::getDefault();
+        $detectedMimeType = $mimeTypeGuesser->guessMimeType($file->getPathname());
+        
+        if (!$detectedMimeType) {
+            $detectedMimeType = $file->getMimeType();
+        }
+
+        if (in_array($detectedMimeType, ['application/octet-stream', 'application/x-empty', 'text/plain']) || !$detectedMimeType) {
+            $extension = $file->getClientOriginalExtension();
+            if (isset($this->extensionMimeTypeMap[$extension])) {
+                return $this->extensionMimeTypeMap[$extension];
+            }
+        }
+
+        return $detectedMimeType;
+    }
+
 
     public function create(Site $site)
     {
@@ -63,19 +106,22 @@ class SiteFileController extends Controller
                     'file',
                     'max:10240',
                     function ($attribute, $value, $fail) {
-                        $mimeTypeGuesser = MimeTypes::getDefault();
-                        $detectedMimeType = $mimeTypeGuesser->guessMimeType($value->getPathname());
+                        $originalName = $value->getClientOriginalName();
                         
-                        if (!$detectedMimeType) {
-                            $detectedMimeType = $value->getMimeType();
+                        if (str_starts_with($originalName, '.') && !str_contains($originalName, '/')) {
+                            if ($originalName === '.DS_Store' || $originalName === 'Thumbs.db' || $originalName === 'desktop.ini') {
+                                $fail("System file '{$originalName}' is not allowed for upload.");
+                                return;
+                            }
                         }
+
+                        $detectedMimeType = $this->getRobustMimeType($value);
                         
                         if (!in_array($detectedMimeType, $this->allowedMimeTypes)) {
-                            $fail("The file type ({$detectedMimeType}) for {$value->getClientOriginalName()} is not allowed. Allowed types include HTML, CSS, JS, images, fonts, video/audio.");
+                            $fail("The file type ({$detectedMimeType}) for '{$originalName}' is not allowed. Please check the file content and extension.");
                         }
                         
-                        $originalName = $value->getClientOriginalName();
-                        if (str_contains($originalName, '..') || str_contains($originalName, '/')) {
+                        if (str_contains($originalName, '..')) {
                             $fail("The filename '{$originalName}' contains invalid characters or paths.");
                         }
                     },
@@ -86,11 +132,13 @@ class SiteFileController extends Controller
             $failedFiles = [];
 
             foreach ($request->file('files') as $file) {
-                $path = $file->getClientOriginalName();
-                $fullStoragePath = $site->id . '/' . $path;
+                $pathWithDirectory = $file->getClientOriginalName();
+                $fullStoragePath = $site->id . '/' . $pathWithDirectory;
 
                 try {
-                    $existingFile = $site->siteFiles()->where('path', $path)->first();
+                    Storage::disk('sites')->makeDirectory(dirname($fullStoragePath));
+
+                    $existingFile = $site->siteFiles()->where('path', $pathWithDirectory)->first();
 
                     $content = $file->get();
                     Storage::disk('sites')->put($fullStoragePath, $content);
@@ -99,14 +147,14 @@ class SiteFileController extends Controller
                         $existingFile->update(['content' => $content]);
                     } else {
                         $site->siteFiles()->create([
-                            'path' => $path,
+                            'path' => $pathWithDirectory,
                             'content' => $content,
                         ]);
                     }
                     $uploadedCount++;
                 } catch (\Exception $e) {
-                    \Log::error("Failed to upload file for site {$site->id}: {$path}. Error: " . $e->getMessage());
-                    $failedFiles[] = $path;
+                    \Log::error("Failed to upload file for site {$site->id}: {$pathWithDirectory}. Error: " . $e->getMessage());
+                    $failedFiles[] = $pathWithDirectory;
                 }
             }
 
@@ -135,6 +183,8 @@ class SiteFileController extends Controller
         $filePath = trim($request->input('path'), '/');
         $content = $request->input('content');
         $fullStoragePath = $site->id . '/' . $filePath;
+
+        Storage::disk('sites')->makeDirectory(dirname($fullStoragePath));
 
         $existingFile = $site->siteFiles()->where('path', $filePath)->first();
 

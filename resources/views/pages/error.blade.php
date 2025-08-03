@@ -36,7 +36,7 @@
             }
         </style>
     </head>
-    <body class="bg-gray-900 text-white">
+    <body class="bg-gray-900 text-white mt-12">
         <header
             class="absolute inset-x-0 top-0 z-50 h-16 bg-gray-400 bg-opacity-20 backdrop-blur-sm backdrop-filter"
         >

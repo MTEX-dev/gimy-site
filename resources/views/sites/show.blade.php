@@ -59,7 +59,7 @@
                     </dl>
                 </div>
             </div>
-
+            
             <div class="mt-6 border-t border-gray-700 pt-6">
                 <h3 class="text-xl font-bold text-white mb-4">Actions</h3>
                 <div class="flex flex-wrap gap-4">
@@ -80,6 +80,9 @@
                     <a href="{{ route('sites.backups.index', $site) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
                         <i class="bi bi-archive mr-2"></i> View Backups
                     </a>
+                    <a href="{{ route('sites.preview', $site) }}" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                        <i class="bi bi-eye mr-2"></i> Preview
+                    </a>
                 </div>
             </div>
         </div>
@@ -92,7 +95,7 @@
                     <i class="bi bi-file-earmark-plus mr-2"></i> Add File
                 </a>
             </div>
-            <div class="overflow-x-auto">
+            <div class="overflow-y-auto max-h-96">
                 <table class="min-w-full">
                     <tbody>
                         @forelse ($site->siteFiles as $file)
