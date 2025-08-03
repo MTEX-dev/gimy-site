@@ -40,6 +40,11 @@ return [
         'description' => '',
     ],
 
+    'InvalidArgumentException' => [
+        'title' => '',
+        'description' => '',
+    ],
+
     'fallback' => [
         'title' => 'Something Went Wrong',
         'description' => 'An unexpected error occurred. Please try again later.',

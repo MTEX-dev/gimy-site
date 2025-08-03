@@ -57,10 +57,10 @@ return [
         ],
 
         'sites' => [
-            'driver' => 'local', // Use the local filesystem driver
-            'root' => storage_path('app/sites'), // This is where the site files will be stored
-            'url' => env('APP_URL') . '/site-files', // Optional: if you were to expose these directly via web server alias
-            'visibility' => 'public', // Makes files accessible with Storage::url() if symlinked or web server config allows
+            'driver' => 'local',
+            'root' => storage_path('app/sites'),
+            'url' => env('APP_URL') . '/site-files',
+            'visibility' => 'public', 
             'throw' => false,
         ],
 

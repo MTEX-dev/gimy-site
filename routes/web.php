@@ -10,6 +10,7 @@ use App\Http\Controllers\Sites\SiteController;
 use App\Http\Controllers\Sites\SiteFileController;
 use App\Http\Controllers\Sites\BackupController;
 use App\Http\Controllers\Sites\GithubController;
+use App\Http\Controllers\Sites\ViewController;
 use App\Http\Controllers\User\SettingsController;
 use App\Models as Model;
 use Illuminate\Support\Facades\Route;
@@ -61,3 +62,5 @@ Route::get('/locale/{locale}', function ($locale) {
 
 
 Route::get('/legal/{section}', [PageController::class, 'legal'])->name('legal');
+
+Route::get('/sites/{site}/preview/{path?}', [ViewController::class, 'show'])->name('sites.preview')->where('path', '.*');
