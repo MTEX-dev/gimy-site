@@ -101,6 +101,6 @@ class Handler extends ExceptionHandler
      */
     protected function shouldViewCustomError(Throwable $e): bool
     {
-        return true;
+        return false;
     }
 }

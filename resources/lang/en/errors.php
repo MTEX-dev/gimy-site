@@ -35,6 +35,11 @@ return [
         'description' => 'The requested resource could not be found.',
     ],
 
+    'ViewException' => [
+        'title' => '',
+        'description' => '',
+    ],
+
     'fallback' => [
         'title' => 'Something Went Wrong',
         'description' => 'An unexpected error occurred. Please try again later.',

@@ -13,6 +13,8 @@ use App\Http\Controllers\Sites\GithubController;
 use App\Http\Controllers\User\SettingsController;
 use App\Models as Model;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
 
 Route::get('/', function () {
     $stats = [
@@ -53,3 +55,12 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
 });
+
+
+Route::get('/locale/{locale}', function ($locale) {
+    if (array_key_exists($locale, config('locales.supported'))) {
+        Session::put('locale', $locale);
+        App::setLocale($locale);
+    }
+    return redirect()->back();
+})->name('locale.switch');

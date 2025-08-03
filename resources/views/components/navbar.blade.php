@@ -14,6 +14,8 @@
                 <a href="{{ route('login') }}" class="text-sm font-semibold text-gray-300 hover:text-white">Log in</a>
                 <a href="{{ route('register') }}" class="rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-transform duration-150 hover:scale-105 hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Register</a>
             @endauth
+
+            @include('components.locale-switcher')
         </div>
     </nav>
 </header>

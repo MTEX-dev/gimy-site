@@ -144,7 +144,7 @@
                                     Go Back
                                 </a>
                                 <a
-                                    href="mailto:support@xpsystems.eu"
+                                    href="mailto:f.ternis@xpsystems.eu"
                                     class="text-sm font-semibold text-gray-200 hover:text-white"
                                 >
                                     Contact Support <span aria-hidden="true">&rarr;</span>
