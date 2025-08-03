@@ -67,19 +67,29 @@
                         <ul
                             class="mt-8 flex-1 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
                         >
-                            <li class="flex gap-x-3">
+                            <li class="flex gap-x-3 items-start">
                                 <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400"
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
                                 ></i>
                                 <span>25 Subdomains</span>
                             </li>
-                            <li class="flex gap-x-3">
+                            <li class="flex gap-x-3 items-start">
                                 <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400"
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
                                 ></i>
-                                <span>Unlimited Pages per Site</span>
+                                <span>Unlimited Files per Site<span class="text-gray-500">*</span></span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Community Support</span>
                             </li>
                         </ul>
+                        <p class="mt-4 text-xs leading-5 text-gray-500 italic">
+                            *Willingly overloading our service can lead to
+                            suspension or restriction.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -112,11 +122,29 @@
                         <ul
                             class="mt-8 flex-1 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
                         >
-                            <li class="flex gap-x-3">
+                            <li class="flex gap-x-3 items-start">
                                 <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400"
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
                                 ></i>
                                 <span>Unlimited Subdomains</span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Priority Support</span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Custom Domains</span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Enhanced Analytics</span>
                             </li>
                         </ul>
                     </div>
@@ -150,17 +178,35 @@
                         <ul
                             class="mt-8 flex-1 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
                         >
-                            <li class="flex gap-x-3">
+                            <li class="flex gap-x-3 items-start">
                                 <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400"
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
                                 ></i>
                                 <span>All Premium Features</span>
                             </li>
-                            <li class="flex gap-x-3">
+                            <li class="flex gap-x-3 items-start">
                                 <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400"
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
                                 ></i>
-                                <span>Advanced Statistics</span>
+                                <span>Dedicated Account Manager</span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Advanced Analytics & Reporting</span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Higher Rate Limits</span>
+                            </li>
+                            <li class="flex gap-x-3 items-start">
+                                <i
+                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                ></i>
+                                <span>Team Collaboration Tools</span>
                             </li>
                         </ul>
                     </div>

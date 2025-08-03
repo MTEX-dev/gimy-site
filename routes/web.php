@@ -16,13 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\App;
 
-Route::get('/', function () {
-    $stats = [
-        'users' => Model\User::count(),
-        'sites' => Model\Site::count(),
-    ];
-    return view('pages.home', ['stats' => $stats]);
-})->name('home');
+Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -64,3 +58,6 @@ Route::get('/locale/{locale}', function ($locale) {
     }
     return redirect()->back();
 })->name('locale.switch');
+
+
+Route::get('/legal/{section}', [PageController::class, 'legal'])->name('legal');
