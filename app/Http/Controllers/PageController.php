@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Site;
 use App\Models\SiteFile;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
@@ -42,5 +44,33 @@ class PageController extends Controller
         }
 
         return view('pages.legal', compact('section', 'sections'));
+    }
+
+    public function handleFeedback(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'message_type' => 'required|string|in:feedback,suggestion,bug',
+            'message' => 'required|string|min:10',
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+        
+        return Redirect::back()->with('feedback_success', __('home.feedback.success_message'));
+    }
+
+    public function handleNewsletter(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        return Redirect::back()->with('newsletter_success', __('home.newsletter.success_message'));
     }
 }

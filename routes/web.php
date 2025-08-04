@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\App;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::post('/feedback', [PageController::class, 'handleFeedback'])->name('feedback.submit');
+Route::post('/newsletter', [PageController::class, 'handleNewsletter'])->name('newsletter.subscribe');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
