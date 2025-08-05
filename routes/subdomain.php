@@ -24,4 +24,4 @@ Route::middleware(function ($request, $next) {
         ->name('site.view')
         ->where('path', '.*');
 });
- 
+   

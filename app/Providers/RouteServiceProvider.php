@@ -38,10 +38,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
+            /*
             // Dynamic Subdomain Routes for Sites
             Route::middleware('web')
                 ->domain('{subdomain}.' . config('app.url_base_domain'))
                 ->group(base_path('routes/subdomain.php'));
+            */
         });
     }
 
