@@ -59,7 +59,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        // Add this missing method
         if (method_exists($this, 'shouldViewCustomError')) {
             if ($e instanceof HttpException) {
                 $statusCode = $e->getStatusCode();
@@ -76,7 +75,6 @@ class Handler extends ExceptionHandler
 
             if ($this->shouldViewCustomError($e)) {
                 $errorType = class_basename($e);
-                // Use the Str::snake method from the Illuminate\Support\Str facade
                 $errorLangKey = Str::snake($errorType);
 
                 if (!__('errors.' . $errorLangKey . '.title') || !__('errors.' . $errorLangKey . '.description')) {
@@ -101,6 +99,6 @@ class Handler extends ExceptionHandler
      */
     protected function shouldViewCustomError(Throwable $e): bool
     {
-        return false;
+        return true;
     }
 }

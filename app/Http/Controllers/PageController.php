@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SiteView;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Site;
@@ -17,6 +18,7 @@ class PageController extends Controller
             'users' => User::count(),
             'sites' => Site::count(),
             'files' => SiteFile::count(),
+            'views' => SiteView::count(),
         ];
 
         return view('pages.home', ['stats' => $stats]);

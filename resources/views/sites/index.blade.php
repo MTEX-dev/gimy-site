@@ -44,6 +44,7 @@
                         </td>
                         <td class="px-5 py-5 border-b border-gray-700 text-sm text-right">
                             <a href="{{ route('sites.show', $site) }}" class="text-blue-400 hover:text-blue-300 mr-3">Manage</a>
+                            <a href="{{ route('sites.stats', $site) }}" class="text-purple-400 hover:text-purple-300 mr-3">Stats</a>
                             <a href="{{ route('sites.edit', $site) }}" class="text-green-400 hover:text-green-300 mr-3">Settings</a>
                             <form action="{{ route('sites.destroy', $site) }}" method="POST" class="inline-block">
                                 @csrf

@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('site_views', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('site_id');
-            $table->foreignUuid('device_id')->nullable();
-            $table->string('route')->nullable();
-            $table->timestamp('viewed_at');
+            $table->ipAddress('ip_address');
+            $table->text('user_agent');
+            $table->string('browser')->nullable();
+            $table->string('os')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('site_views');
+        Schema::dropIfExists('devices');
     }
 };

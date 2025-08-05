@@ -12,6 +12,7 @@ return [
         'developers' => 'Developers Joined',
         'sites' => 'Sites Created',
         'files' => 'Files Stored',
+        'views' => 'Site Views',
     ],
     'how_it_works' => [
         'section_title' => 'Simple Workflow',

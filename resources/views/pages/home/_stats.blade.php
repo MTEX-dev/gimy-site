@@ -17,7 +17,7 @@
 
         <!-- Stats Grid -->
         <div
-            class="grid grid-cols-1 gap-8 text-center md:grid-cols-2 lg:grid-cols-3"
+            class="grid grid-cols-1 gap-8 text-center md:grid-cols-2 lg:grid-cols-4"
         >
             <!-- Users Stat -->
             <div class="zoom-in" style="--delay: 100ms">
@@ -72,6 +72,25 @@
                         </dd>
                         <dt class="mt-1 text-base leading-7 text-gray-400">
                             {{ __('home.stats.files') }}
+                        </dt>
+                    </div>
+                </div>
+            </div>
+            <!-- Site Views Stat -->
+            <div class="zoom-in" style="--delay: 550ms">
+                <div
+                    class="flex items-center gap-x-6 rounded-xl bg-gray-800/40 p-8 transition-transform duration-300 hover:-translate-y-2"
+                >
+                    <i class="bi bi-eye-fill text-5xl text-indigo-400"></i>
+                    <div class="text-left">
+                        <dd
+                            class="order-first text-4xl font-semibold tracking-tight text-white sm:text-5xl"
+                            data-target="{{ $stats['views'] }}"
+                        >
+                            ?
+                        </dd>
+                        <dt class="mt-1 text-base leading-7 text-gray-400">
+                            {{ __('home.stats.views') }}
                         </dt>
                     </div>
                 </div>

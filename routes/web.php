@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\FileExplorerController;
+use App\Http\Controllers\Sites\FileExplorerController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -11,6 +11,7 @@ use App\Http\Controllers\Sites\SiteFileController;
 use App\Http\Controllers\Sites\BackupController;
 use App\Http\Controllers\Sites\GithubController;
 use App\Http\Controllers\Sites\ViewController;
+use App\Http\Controllers\Sites\StatsController;
 use App\Http\Controllers\User\SettingsController;
 use App\Models as Model;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('sites/{site}/backups/restore', [BackupController::class, 'restore'])->name('sites.backups.restore');
     Route::resource('sites.files', SiteFileController::class)->shallow();
     Route::resource('sites.deployments', SiteDeploymentController::class)->shallow();
+    Route::get('/sites/{site}/stats', [StatsController::class, 'index'])->name('sites.stats');
     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -65,4 +67,4 @@ Route::get('/locale/{locale}', function ($locale) {
 
 Route::get('/legal/{section}', [PageController::class, 'legal'])->name('legal');
 
-Route::get('/sites/{site}/preview/{path?}', [ViewController::class, 'show'])->name('sites.preview')->where('path', '.*');
+Route::get('/sites/{site}/preview/{path?}', [ViewController::class, 'preview'])->name('sites.preview')->where('path', '.*');

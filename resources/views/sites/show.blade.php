@@ -83,6 +83,12 @@
                     <a href="{{ route('sites.preview', $site) }}" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
                         <i class="bi bi-eye mr-2"></i> Preview
                     </a>
+                    <a href="{{ route('sites.stats', $site) }}" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                        <i class="bi bi-graph-up mr-2"></i> Stats
+                    </a>
+                    <a href="{{ route('sites.files.create', $site) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                        <i class="bi bi-file-earmark-plus mr-2"></i> Add File
+                    </a>
                 </div>
             </div>
         </div>

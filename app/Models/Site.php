@@ -37,4 +37,9 @@ class Site extends Model
     {
         return $this->hasMany(SiteDeployment::class);
     }
+
+    public function siteViews()
+    {
+        return $this->hasMany(SiteView::class);
+    }
 }
