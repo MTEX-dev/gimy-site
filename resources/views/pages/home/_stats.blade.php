@@ -5,13 +5,13 @@
             <h2
                 class="text-base font-semibold leading-7 text-indigo-400 fade-in-up"
             >
-                Stats
+                {{ __('home.stats.section_title') }}
             </h2>
             <p
                 class="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl fade-in-up"
                 style="--delay: 100ms"
             >
-                Some Statistics
+                {{ __('home.stats.title') }}
             </p>
         </div>
 
@@ -33,7 +33,7 @@
                             ?
                         </dd>
                         <dt class="mt-1 text-base leading-7 text-gray-400">
-                            Developers Joined
+                            {{ __('home.stats.developers') }}
                         </dt>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                             ?
                         </dd>
                         <dt class="mt-1 text-base leading-7 text-gray-400">
-                            Sites Created
+                            {{ __('home.stats.sites') }}
                         </dt>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             ?
                         </dd>
                         <dt class="mt-1 text-base leading-7 text-gray-400">
-                            Files Stored
+                            {{ __('home.stats.files') }}
                         </dt>
                     </div>
                 </div>

@@ -35,14 +35,13 @@
     <!-- Content -->
     <div class="mx-auto max-w-3xl py-40 sm:py-56 lg:py-64 text-center">
         <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl fade-in-up">
-            The Developer's Sandbox for Web Creation
+            {{ __('home.hero.title') }}
         </h1>
         <p
             class="mt-6 text-lg leading-8 text-gray-300 fade-in-up"
             style="--delay: 150ms"
         >
-            Gimy.site is a rapid-deployment platform from mtex.dev. Write HTML, CSS,
-            and JS for multiple pages and publish your static sites instantly.
+            {{ __('home.hero.subtitle') }}
         </p>
         <div
             class="mt-10 flex items-center justify-center gap-x-6 fade-in-up"
@@ -52,7 +51,7 @@
                 href="{{ route('register') }}"
                 class="rounded-md bg-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
-                Start Building for Free
+                {{ __('home.hero.cta_btn') }}
             </a>
         </div>
     </div>

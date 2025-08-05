@@ -1,25 +1,25 @@
-@extends('layouts.app') @section('title', __('strings.settings_title'))
+@extends('layouts.app') @section('title', __('strings.settings.title'))
 @section('content')
   <div class="container mx-auto px-4 py-10">
     <header class="mb-8">
-      <h1 class="text-3xl font-bold">{{ __('strings.settings_title') }}</h1>
+      <h1 class="text-3xl font-bold">{{ __('strings.settings.title') }}</h1>
     </header>
 
     <div class="max-w-2xl mx-auto space-y-8">
       <!-- Locale Settings -->
       <div class="bg-slate-800 rounded-xl shadow-lg p-8">
         <h2 class="text-xl font-bold mb-1">
-          {{ __('strings.settings_locale_heading') }}
+          {{ __('strings.settings.locale.heading') }}
         </h2>
         <p class="text-slate-400 mb-4">
-          {{ __('strings.settings_locale_description') }}
+          {{ __('strings.settings.locale.description') }}
         </p>
 
         @if (session('status') === 'settings-updated')
           <div
             class="bg-green-500/20 text-green-300 p-3 rounded-lg mb-4 text-sm"
           >
-            {{ __('strings.settings_status_updated') }}
+            {{ __('strings.settings.alerts.updated') }}
           </div>
         @endif
 
@@ -31,7 +31,7 @@
           @csrf @method('PATCH')
           <div>
             <label for="locale" class="block mb-2 text-sm font-medium">
-              {{ __('strings.settings_locale_label') }}
+              {{ __('strings.settings.locale.label') }}
             </label>
             <select
               id="locale"
@@ -54,7 +54,7 @@
               type="submit"
               class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg"
             >
-              {{ __('strings.settings_button_save') }}
+              {{ __('strings.settings.buttons.save') }}
             </button>
           </div>
         </form>
@@ -63,10 +63,10 @@
       <!-- Danger Zone -->
       <div class="bg-slate-800 border border-red-500/50 rounded-xl shadow-lg p-8">
         <h2 class="text-xl font-bold text-red-400 mb-1">
-          {{ __('strings.settings_danger_zone') }}
+          {{ __('strings.settings.danger_zone.heading') }}
         </h2>
         <p class="text-slate-400 mb-4">
-          {{ __('strings.settings_delete_warning') }}
+          {{ __('strings.settings.danger_zone.delete_warning') }}
         </p>
         <form
           method="POST"
@@ -76,7 +76,7 @@
           @csrf @method('DELETE')
           <div>
             <label for="password" class="block mb-2 text-sm font-medium">
-              {{ __('strings.settings_delete_password_label') }}
+              {{ __('strings.settings.danger_zone.password_label') }}
             </label>
             <input
               type="password"
@@ -94,7 +94,7 @@
               type="submit"
               class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
             >
-              {{ __('strings.settings_delete_account') }}
+              {{ __('strings.settings.danger_zone.delete_account') }}
             </button>
           </div>
         </form>

@@ -4,14 +4,13 @@
             <h2
                 class="text-3xl font-bold tracking-tight text-white sm:text-4xl fade-in-up"
             >
-                Built With Powerful Technology
+                {{ __('home.tech_stack.title') }}
             </h2>
             <p
                 class="mt-6 text-lg leading-8 text-gray-300 fade-in-up"
                 style="--delay: 100ms"
             >
-                We use a modern, robust tech stack to ensure gimy.site is fast,
-                reliable, and scalable.
+                {{ __('home.tech_stack.subtitle') }}
             </p>
         </div>
         <div

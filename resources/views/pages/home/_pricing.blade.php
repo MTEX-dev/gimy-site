@@ -5,13 +5,13 @@
             <h2
                 class="text-base font-semibold leading-7 text-indigo-400 fade-in-up"
             >
-                Pricing
+                {{ __('home.pricing.section_title') }}
             </h2>
             <p
                 class="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl fade-in-up"
                 style="--delay: 100ms"
             >
-                Generous Plans for Every Creator
+                {{ __('home.pricing.title') }}
             </p>
         </div>
 
@@ -20,8 +20,7 @@
             class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-300 fade-in-up"
             style="--delay: 200ms"
         >
-            Start for free today. Our paid plans with advanced features are in
-            development and will be available in the future.
+            {{ __('home.pricing.subtitle') }}
         </p>
 
         <!-- Pricing Cards -->
@@ -44,51 +43,40 @@
                     </div>
                     <div class="flex h-full flex-col p-8 xl:p-10">
                         <h3 class="text-lg font-semibold leading-8 text-white">
-                            Free
+                            {{ __('home.pricing.free_plan.name') }}
                         </h3>
                         <p class="mt-4 text-sm leading-6 text-gray-300">
-                            Perfect for personal projects and getting started.
+                            {{ __('home.pricing.free_plan.description') }}
                         </p>
                         <p class="mt-6 flex items-baseline gap-x-1">
                             <span
                                 class="text-4xl font-bold tracking-tight text-white"
-                                >$0</span
+                                >{{ __('home.pricing.free_plan.price') }}</span
                             >
                             <span class="text-sm font-semibold text-gray-300"
-                                >/month</span
+                                >{{ __('home.pricing.free_plan.period') }}</span
                             >
                         </p>
                         <a
                             href="{{ route('register') }}"
                             class="mt-6 block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         >
-                            Get started for free
+                            {{ __('home.pricing.free_plan.cta_btn') }}
                         </a>
                         <ul
                             class="mt-8 flex-1 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
                         >
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>25 Subdomains</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Unlimited Files per Site<span class="text-gray-500">*</span></span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Community Support</span>
-                            </li>
+                            @foreach (__('home.pricing.free_plan.features') as $feature)
+                                <li class="flex gap-x-3 items-start">
+                                    <i
+                                        class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                    ></i>
+                                    <span>{{ $feature }}</span>
+                                </li>
+                            @endforeach
                         </ul>
                         <p class="mt-4 text-xs leading-5 text-gray-500 italic">
-                            *Willingly overloading our service can lead to
-                            suspension or restriction.
+                            *{{ __('home.pricing.free_plan.disclaimer') }}
                         </p>
                     </div>
                 </div>
@@ -101,51 +89,34 @@
                 >
                     <div class="flex h-full flex-col p-8 xl:p-10">
                         <h3 class="text-lg font-semibold leading-8 text-white">
-                            Premium
+                            {{ __('home.pricing.premium_plan.name') }}
                         </h3>
                         <p class="mt-4 text-sm leading-6 text-gray-300">
-                            For professionals and businesses who need more
-                            power.
+                            {{ __('home.pricing.premium_plan.description') }}
                         </p>
                         <p class="mt-6 flex items-baseline gap-x-1">
                             <span
                                 class="text-4xl font-bold tracking-tight text-white"
-                                >$TBD</span
+                                >{{ __('home.pricing.premium_plan.price') }}</span
                             >
                         </p>
                         <button
                             disabled
                             class="mt-6 block w-full cursor-not-allowed rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-gray-400"
                         >
-                            Coming Soon
+                            {{ __('home.pricing.premium_plan.cta_btn') }}
                         </button>
                         <ul
                             class="mt-8 flex-1 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
                         >
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Unlimited Subdomains</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Priority Support</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Custom Domains</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Enhanced Analytics</span>
-                            </li>
+                            @foreach (__('home.pricing.premium_plan.features') as $feature)
+                                <li class="flex gap-x-3 items-start">
+                                    <i
+                                        class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                    ></i>
+                                    <span>{{ $feature }}</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -158,56 +129,34 @@
                 >
                     <div class="flex h-full flex-col p-8 xl:p-10">
                         <h3 class="text-lg font-semibold leading-8 text-white">
-                            Pro
+                            {{ __('home.pricing.pro_plan.name') }}
                         </h3>
                         <p class="mt-4 text-sm leading-6 text-gray-300">
-                            Advanced tools for power users and agencies.
+                            {{ __('home.pricing.pro_plan.description') }}
                         </p>
                         <p class="mt-6 flex items-baseline gap-x-1">
                             <span
                                 class="text-4xl font-bold tracking-tight text-white"
-                                >$TBD</span
+                                >{{ __('home.pricing.pro_plan.price') }}</span
                             >
                         </p>
                         <button
                             disabled
                             class="mt-6 block w-full cursor-not-allowed rounded-md bg-gray-600 px-3 py-2 text-center text-sm font-semibold leading-6 text-gray-400"
                         >
-                            Coming Soon
+                            {{ __('home.pricing.pro_plan.cta_btn') }}
                         </button>
                         <ul
                             class="mt-8 flex-1 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
                         >
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>All Premium Features</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Dedicated Account Manager</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Advanced Analytics & Reporting</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Higher Rate Limits</span>
-                            </li>
-                            <li class="flex gap-x-3 items-start">
-                                <i
-                                    class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
-                                ></i>
-                                <span>Team Collaboration Tools</span>
-                            </li>
+                            @foreach (__('home.pricing.pro_plan.features') as $feature)
+                                <li class="flex gap-x-3 items-start">
+                                    <i
+                                        class="bi bi-check-circle-fill h-5 w-5 flex-none text-indigo-400 mt-0.5"
+                                    ></i>
+                                    <span>{{ $feature }}</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>

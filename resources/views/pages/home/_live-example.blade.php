@@ -4,21 +4,19 @@
             <h2
                 class="text-base font-semibold leading-7 text-indigo-400 fade-in-up"
             >
-                Direct Control
+                {{ __('home.live_example.section_title') }}
             </h2>
             <p
                 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl fade-in-up"
                 style="--delay: 100ms"
             >
-                From Code to Creation
+                {{ __('home.live_example.title') }}
             </p>
             <p
                 class="mt-6 text-lg leading-8 text-gray-300 fade-in-up"
                 style="--delay: 200ms"
             >
-                See how simple it is. The code you write in our editor is
-                exactly what gets rendered. No complex layers, just pure web
-                creation.
+                {{ __('home.live_example.subtitle') }}
             </p>
         </div>
         <div
