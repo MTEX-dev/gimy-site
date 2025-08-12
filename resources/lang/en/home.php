@@ -61,13 +61,29 @@ return [
         'section_title' => 'More than just a Host',
         'title' => 'Everything you need to build your Site',
         'subtitle' => 'Gimy.site is packed with features that make it easy to create, deploy, and manage your static websites.',
-        'features' => [
-            ['title' => 'Web-Based File Explorer', 'description' => 'Use our web-based file explorer to apply quick edits or build your whole project from scratch.'],
-            ['title' => 'Syntax Highlighting', 'description' => 'Keep the overview with basic syntax-highlighting for HTML, CSS, and JavaScript in our editor.'],
-            ['title' => 'Instant Deployment', 'description' => 'Your site is updated the second you save your changes. Preview and go live instantly.'],
-            ['title' => 'Simple Backups', 'description' => 'One-click backups and automatic backups before pulling from GitHub or restoring a previous version.'],
-            ['title' => 'Pull from GitHub', 'description' => 'Easily import any public GitHub repository with just one click to get your project started.'],
-            ['title' => 'Custom 404 Pages', 'description' => 'Create your own custom "Page Not Found" pages. (Coming Soon)'],
+        'file_explorer' => [
+            'title' => 'Web-Based File Explorer',
+            'description' => 'Use our web-based file explorer to apply quick edits or build your whole project from scratch.',
+        ],
+        'syntax_highlighting' => [
+            'title' => 'Syntax Highlighting',
+            'description' => 'Keep the overview with basic syntax-highlighting for HTML, CSS, and JavaScript in our editor.',
+        ],
+        'instant_deployment' => [
+            'title' => 'Instant Deployment',
+            'description' => 'Your site is updated the second you save your changes. Preview and go live instantly.',
+        ],
+        'simple_backups' => [
+            'title' => 'Simple Backups',
+            'description' => 'One-click backups and automatic backups before pulling from GitHub or restoring a previous version.',
+        ],
+        'pull_from_github' => [
+            'title' => 'Pull from GitHub',
+            'description' => 'Easily import any public GitHub repository with just one click to get your project started.',
+        ],
+        'custom_404_pages' => [
+            'title' => 'Custom 404 Pages',
+            'description' => 'Create your own custom "Page Not Found" pages. (Coming Soon)',
         ],
     ],
     'syntax_highlight' => [
