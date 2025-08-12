@@ -99,6 +99,9 @@ class Handler extends ExceptionHandler
      */
     protected function shouldViewCustomError(Throwable $e): bool
     {
+        if ($e instanceof \Illuminate\Validation\ValidationException) {
+            return false;
+        }
         return true;
     }
 }
