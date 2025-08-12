@@ -49,7 +49,7 @@
         >
             <a
                 href="{{ route('register') }}"
-                class="rounded-md bg-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                class="rounded-md bg-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-210 hover:scale-105 hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
                 {{ __('home.hero.cta_btn') }}
             </a>

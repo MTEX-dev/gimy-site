@@ -47,6 +47,7 @@
     @include('pages.home._stats')
     @include('pages.home._how-it-works')
     @include('pages.home._who-is-it-for')
+    @include('pages.home._generous-cta')
     @include('pages.home._live-example')
     @include('pages.home._features-detailed')
     @include('pages.home._syntax-highlight')

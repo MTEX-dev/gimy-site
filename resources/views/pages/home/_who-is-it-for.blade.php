@@ -16,21 +16,58 @@
         <div
             class="mx-auto mt-16 grid max-w-lg grid-cols-1 gap-8 sm:grid-cols-2 lg:max-w-none lg:grid-cols-4"
         >
-            @foreach (__('home.who_is_it_for.cards') as $card)
-                <div class="zoom-in" style="--delay: {{ $loop->index * 100 + 200 }}ms">
-                    <div
-                        class="flex flex-col items-center text-center p-6 bg-gray-800/40 rounded-xl transition-transform duration-300 hover:-translate-y-2 h-full"
-                    >
-                        <i class="bi bi-braces text-4xl text-indigo-400"></i>
-                        <h3 class="mt-4 text-lg font-semibold text-white">
-                            {{ $card['title'] }}
-                        </h3>
-                        <p class="mt-2 text-sm text-gray-400">
-                            {{ $card['description'] }}
-                        </p>
-                    </div>
+            <div class="zoom-in" style="--delay: 200ms">
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gray-800/40 rounded-xl transition-transform duration-300 hover:-translate-y-2 h-full"
+                >
+                    <i class="bi bi-braces text-4xl text-indigo-400"></i>
+                    <h3 class="mt-4 text-lg font-semibold text-white">
+                        {{ __('home.who_is_it_for.developers.title') }}
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        {{ __('home.who_is_it_for.developers.description') }}
+                    </p>
                 </div>
-            @endforeach
+            </div>
+            <div class="zoom-in" style="--delay: 300ms">
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gray-800/40 rounded-xl transition-transform duration-300 hover:-translate-y-2 h-full"
+                >
+                    <i class="bi bi-palette-fill text-4xl text-indigo-400"></i>
+                    <h3 class="mt-4 text-lg font-semibold text-white">
+                        {{ __('home.who_is_it_for.designers.title') }}
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        {{ __('home.who_is_it_for.designers.description') }}
+                    </p>
+                </div>
+            </div>
+            <div class="zoom-in" style="--delay: 400ms">
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gray-800/40 rounded-xl transition-transform duration-300 hover:-translate-y-2 h-full"
+                >
+                    <i class="bi bi-rocket-takeoff-fill text-4xl text-indigo-400"></i>
+                    <h3 class="mt-4 text-lg font-semibold text-white">
+                        {{ __('home.who_is_it_for.hobbyists.title') }}
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        {{ __('home.who_is_it_for.hobbyists.description') }}
+                    </p>
+                </div>
+            </div>
+            <div class="zoom-in" style="--delay: 500ms">
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gray-800/40 rounded-xl transition-transform duration-300 hover:-translate-y-2 h-full"
+                >
+                    <i class="bi bi-mortarboard-fill text-4xl text-indigo-400"></i>
+                    <h3 class="mt-4 text-lg font-semibold text-white">
+                        {{ __('home.who_is_it_for.students.title') }}
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        {{ __('home.who_is_it_for.students.description') }}
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

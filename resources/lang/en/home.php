@@ -35,11 +35,21 @@ return [
     'who_is_it_for' => [
         'section_title' => 'Our Community',
         'title' => 'Who Builds on Gimy.site?',
-        'cards' => [
-            ['title' => 'Developers', 'description' => 'Rapidly prototype and deploy static sites for projects and clients.'],
-            ['title' => 'Designers', 'description' => 'Bring your high-fidelity designs to life with custom HTML, CSS & JS.'],
-            ['title' => 'Hobbyists', 'description' => 'Launch personal projects, portfolios, or fun web experiments with ease.'],
-            ['title' => 'Students', 'description' => 'Learn web development fundamentals in a live, hands-on environment.'],
+        'developers' => [
+            'title' => 'Developers',
+            'description' => 'Rapidly prototype and deploy static sites for projects and clients.',
+        ],
+        'designers' => [
+            'title' => 'Designers',
+            'description' => 'Bring your high-fidelity designs to life with custom HTML, CSS & JS.',
+        ],
+        'hobbyists' => [
+            'title' => 'Hobbyists',
+            'description' => 'Launch personal projects, portfolios, or fun web experiments with ease.',
+        ],
+        'students' => [
+            'title' => 'Students',
+            'description' => 'Learn web development fundamentals in a live, hands-on environment.',
         ],
     ],
     'live_example' => [
