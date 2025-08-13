@@ -28,11 +28,13 @@ class PageController extends Controller
     {
         $user = auth()->user();
         $sitesCount = $user->sites()->count();
+        $sitesLimit = $user->sites_limit();
         $filesCount = $user->siteFiles()->count();
         $sites = auth()->user()->sites()->latest()->get();
         return view('pages.dashboard', compact([
             'sites',
             'sitesCount',
+            'sitesLimit',
             'filesCount',
         ]));
     }

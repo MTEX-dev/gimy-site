@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(Site::class);
     }
 
+    public function sites_limit()
+    {
+        return 25;
+    }
+
     /**
      * A user can have many site files through their sites.
      */
