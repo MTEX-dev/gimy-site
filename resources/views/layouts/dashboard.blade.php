@@ -27,7 +27,7 @@
                 <a href="#" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">
                     <i class="bi bi-gear-fill mr-3"></i> Settings
                 </a>
-                <form action="{{ route('logout') }}" method="POST" class="mt-auto">
+                <form action="{{ route('logout') }}" method="POST" class="">
                     @csrf
                     <button type="submit" class="flex items-center w-full text-left py-2 px-6 text-red-400 hover:bg-gray-700 transition duration-200">
                         <i class="bi bi-box-arrow-right mr-3"></i> Logout
