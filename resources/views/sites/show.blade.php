@@ -80,7 +80,7 @@
                     <a href="{{ route('sites.backups.index', $site) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
                         <i class="bi bi-archive mr-2"></i> View Backups
                     </a>
-                    <a href="{{ route('sites.preview', $site) }}" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
+                    <a href="{{ route('sites.preview', $site) }}" target="_blank" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
                         <i class="bi bi-eye mr-2"></i> Preview
                     </a>
                     <a href="{{ route('sites.stats', $site) }}" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex items-center">
