@@ -9,7 +9,7 @@
 
         <div>
             <label for="username" class="block text-sm font-medium text-gray-400">{{ __('auth.username_label') }}</label>
-            <input id="username" type="text" name="name" value="{{ old('name') }}" required autofocus
+            <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus
                    class="block w-full px-3 py-2 mt-1 text-gray-200 placeholder-gray-500 bg-gray-700 border border-gray-600 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('name') border-red-500 @enderror">
             @error('username')
                 <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
