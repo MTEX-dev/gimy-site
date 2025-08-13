@@ -1,14 +1,17 @@
-{{-- layouts/dashboard.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
     <div class="flex min-h-screen bg-gray-900 text-white">
-        {{-- Sidenav --}}
-        <aside class="w-64 bg-gray-800 shadow-lg fixed md:relative h-screen md:h-auto z-40 hidden md:block" id="sidenav">
-            <div class="p-6 text-2xl font-bold text-center border-b border-gray-700">
-                gimy.site
+        <aside class="w-64 bg-gray-800 shadow-lg fixed h-screen z-40 md:relative md:h-auto transition-transform duration-300 ease-in-out transform -translate-x-full md:translate-x-0" id="sidenav">
+            <div class="p-6 text-2xl font-bold text-center border-b border-gray-700 flex justify-between items-center">
+                <span>gimy.site</span>
+                <button id="sidenav-close" class="text-white focus:outline-none md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
             </div>
-            <nav class="mt-5">
+            <nav class="mt-5 flex flex-col h-[calc(100%-70px)]">
                 <a href="{{ route('home') }}" class="flex items-center py-2 px-6 text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">
                     <i class="bi bi-house-fill mr-3"></i> Home
                 </a>
@@ -33,25 +36,21 @@
             </nav>
         </aside>
 
-        {{-- Main Content Area --}}
         <div class="flex-1 flex flex-col overflow-hidden">
-            {{-- Top Bar for Mobile Sidenav Toggle and Dark Mode --}}
-            <header class="flex items-center justify-between px-6 py-4 bg-gray-800 shadow-md md:hidden">
-                <button id="sidenav-toggle" class="text-white focus:outline-none">
+            <header class="flex items-center justify-between px-6 py-4 bg-gray-800 shadow-md">
+                <button id="sidenav-toggle" class="text-white focus:outline-none md:hidden">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
-                <h1 class="text-xl font-semibold text-white">Dashboard</h1>
-                <button id="dark-mode-toggle-mobile" class="text-white focus:outline-none">
+                <h1 class="text-xl font-semibold text-white md:ml-0 ml-4">Dashboard</h1>
+                <button id="dark-mode-toggle-desktop" class="text-white focus:outline-none hidden md:block">
                     <i class="bi bi-sun-fill text-xl dark:hidden"></i>
                     <i class="bi bi-moon-fill text-xl hidden dark:inline"></i>
                 </button>
             </header>
 
-            {{-- Main Content --}}
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
-                {{-- Breadcrumbs --}}
                 <nav class="text-sm font-semibold mb-6 flex items-center space-x-2">
                     <a href="{{ route('dashboard') }}" class="text-gray-400 hover:text-white">Dashboard</a>
                     @hasSection('breadcrumbs')
@@ -60,7 +59,6 @@
                     @endif
                 </nav>
 
-                {{-- Page Title --}}
                 <h2 class="text-3xl font-bold mb-8 text-white">
                     @yield('title', 'Dashboard')
                 </h2>
@@ -70,15 +68,13 @@
         </div>
     </div>
 
-    {{-- Dark Mode Script --}}
     <script>
         const html = document.documentElement;
         const darkModeToggleDesktop = document.getElementById('dark-mode-toggle-desktop');
-        const darkModeToggleMobile = document.getElementById('dark-mode-toggle-mobile');
         const sidenavToggle = document.getElementById('sidenav-toggle');
+        const sidenavClose = document.getElementById('sidenav-close');
         const sidenav = document.getElementById('sidenav');
 
-        // Initial check for dark mode
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.add('dark');
         } else {
@@ -95,29 +91,27 @@
             }
         }
 
-        // Check if desktop toggle exists before adding event listener
         if (darkModeToggleDesktop) {
             darkModeToggleDesktop.addEventListener('click', toggleDarkMode);
         }
-        if (darkModeToggleMobile) {
-            darkModeToggleMobile.addEventListener('click', toggleDarkMode);
-        }
 
-        // Sidenav toggle for mobile
         if (sidenavToggle) {
             sidenavToggle.addEventListener('click', function () {
-                sidenav.classList.toggle('hidden');
+                sidenav.classList.remove('-translate-x-full');
             });
         }
 
-        // Close sidenav on larger screens if open on mobile
+        if (sidenavClose) {
+            sidenavClose.addEventListener('click', function () {
+                sidenav.classList.add('-translate-x-full');
+            });
+        }
+
         window.addEventListener('resize', function() {
-            if (window.innerWidth >= 768 && sidenav.classList.contains('hidden')) {
-                sidenav.classList.remove('hidden');
-            } else if (window.innerWidth < 768 && !sidenav.classList.contains('hidden')) {
-                // Optional: keep it open on resize if it was open, or always close it.
-                // For simplicity, we'll let it stay open if it was already open.
-                // If you want it to close automatically, add: sidenav.classList.add('hidden');
+            if (window.innerWidth >= 768) {
+                sidenav.classList.remove('-translate-x-full');
+            } else {
+                sidenav.classList.add('-translate-x-full');
             }
         });
     </script>
